@@ -1,0 +1,14 @@
+// @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+  padding: 0;
+  margin: 0;
+  background: #ededed;
+}
+.cdk-overlay-container {
+  z-index: 1051;
+}
+// .mat-form-field-flex {
+//   margin-top: 25px;
+// }

@@ -1,0 +1,17 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+}
+.login-container > * {
+  width: 100%;
+}
+.login-card {
+  width: 30%;
+  margin: auto;
+  margin-top: 10%;
+}
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

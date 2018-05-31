@@ -1,0 +1,32 @@
+:host {
+  .post-img {
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  article {
+    border-bottom: 1px solid #ededed;
+    .bg-grey {
+      background-color: #c7c6c6;
+    }
+    .column {
+      box-shadow: 0 .005em .01em 0 rgba(0,0,0,.12),0 2px 10px 0 rgba(0,0,0,.12)!important;
+    }
+    time {
+      color: #cacaca;
+    }
+  }
+
+}
+table.border {
+  margin-bottom: 0;
+  tr.one {
+    border: 15px solid white;
+  }
+  td {
+    vertical-align: middle;
+  }
+}

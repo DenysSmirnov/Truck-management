@@ -1,0 +1,60 @@
+<div class="modal fade" id="newDriverModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title" id="newModalLabel">New driver</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form #driverForm="ngForm" (ngSubmit)="onSubmit(driverForm)">
+          <div class="modal-body">
+            <div class="new-driver-container">
+              <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPost.$key">
+              
+              <mat-form-field>
+                <input matInput class="form-control" name="id" #id="ngModel"
+                  [(ngModel)]="postService.selectedPost.id" placeholder="ID">
+              </mat-form-field>
+  
+              <mat-form-field>
+                <input matInput class="form-control" name="serial" #serial="ngModel"
+                  [(ngModel)]="postService.selectedPost.serial" placeholder="Serial" required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="firstName" #firstName="ngModel"
+                  [(ngModel)]="postService.selectedPost.firstName" placeholder="First Name" required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="lastName" #lastName="ngModel"
+                  [(ngModel)]="postService.selectedPost.lastName" placeholder="Last Name" required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="email" #email="ngModel"
+                  [(ngModel)]="postService.selectedPost.email" placeholder="E-mail">
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="phone" #phone="ngModel"
+                  [(ngModel)]="postService.selectedPost.phone" placeholder="Phone">
+              </mat-form-field>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm(driverForm)">
+            <i class="fa fa-repeat"></i>
+            Reset</button>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="driverForm.invalid">
+            <i class="fa fa-floppy-o"></i>
+            Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

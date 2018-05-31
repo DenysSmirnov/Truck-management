@@ -1,0 +1,39 @@
+<mat-card class="login-card">
+  <mat-card-header>
+      <p class="h5 mb-4">Sign in</p>
+  </mat-card-header>
+  <mat-card-content>
+    <form>
+        <!-- #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" -->
+      <div class="login-container">
+        <mat-form-field>
+          <input matInput placeholder="Your email" [type]="email" [formControl]="user.email" required>
+          <!-- <input matInput [type]="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" required> -->
+          <mat-error *ngIf="user.email.invalid">{{ getErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Your password" [type]="hide ? 'password' : 'text'"
+                [formControl]="user.pass" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-error *ngIf="user.pass.invalid">{{ getPassErrorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="button-row">
+    <mat-card-actions>
+      <button mat-raised-button (click)="signInWithEmail()" color="primary">Login</button>
+      <button mat-button color="primary" type="submit">Forgot password?</button>
+    </mat-card-actions>
+  </div>
+</mat-card>
+
+
+<!-- 
+ <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+                   
+ <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+               
+<mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> 
+-->

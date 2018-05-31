@@ -1,0 +1,29 @@
+<!-- <article>
+  <div class="bg-white column p-2 mb-2" *ngFor="let post of postList">
+    <div class="bg-grey d-flex p-2 m-2">
+      <h6 class="col-md-5 m-auto">{{ post.name }}</h6>
+      <div class="col-md-7 post-description p-2">{{ post.office }}></div>
+    </div>
+  </div>
+</article> -->
+
+
+<table class="table table-sm table-hover border">
+  <tr class="one" *ngFor="let post of postList">
+    <td>{{ post.serial }}</td>
+    <td>id: {{ post.id }}</td>
+    <td>
+      <tr>{{ post.driver.lastName }} {{ post.driver.firstName }}</tr> 
+      <tr>{{ post.driver.email }}</tr>
+      <tr>{{ post.driver.phone }}</tr>
+    </td>
+    <td class="text-right">
+      <a class="btn" data-target="#newModal" (click)="onEdit(post)">
+        <i class="fa fa-pencil-square-o"></i>
+      </a>
+      <a class="btn" (click)="onDelete(post.$key)">
+        <i class="fa fa-trash-o"></i>
+      </a>
+    </td>
+  </tr>
+</table>
