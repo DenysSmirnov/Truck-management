@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
 
@@ -25,8 +24,6 @@ export class NewDriverComponent implements OnInit {
       this.postService.insertTruck(driverForm.value);
       this.resetForm(driverForm);
       this.tostr.success('Submitted Successfully', 'Package Register');
-
-
     } else {
       this.postService.updateTruck(driverForm.value);
       this.resetForm(driverForm);

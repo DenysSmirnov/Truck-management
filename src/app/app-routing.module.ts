@@ -6,9 +6,10 @@ import { RegisterFormComponent } from './components/blog/user-login/register-for
 import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
-  { path: '', component: BlogComponent },
+  { path: '', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginFormComponent },
-  { path: 'register', component: RegisterFormComponent }
+  { path: 'register', component: RegisterFormComponent },
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

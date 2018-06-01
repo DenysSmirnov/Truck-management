@@ -1,6 +1,87 @@
 <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title" id="newModalLabel">New package</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
+          <div class="modal-body">
+            <div class="new-package-container">
+              <!-- <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPackage.$key"> -->
+              
+              <mat-form-field>
+                <input matInput class="form-control" name="id" #id="ngModel"
+                  [(ngModel)]="postService.selectedPackage.id" placeholder="ID">
+              </mat-form-field>
+  
+              <mat-form-field>
+                <input matInput class="form-control" name="serial" #serial="ngModel"
+                  [(ngModel)]="postService.selectedPackage.serial" placeholder="Serial" required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="firstName" #firstName="ngModel"
+                  [(ngModel)]="postService.selectedPackage.firstName" placeholder="First Name" required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput class="form-control" name="lastName" #lastName="ngModel"
+                  [(ngModel)]="postService.selectedPackage.lastName" placeholder="Last Name" required>
+              </mat-form-field>
+
+              <!-- <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field> -->
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" class="form-control" name="date" placeholder="Choose a date"
+                (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-select placeholder="Assigned a package with">
+                  <mat-option value="Unassigned">Unassigned</mat-option>
+                  <mat-option *ngFor="let truck of trucks" [value]="truck">{{truck}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <textarea matInput class="form-control" name="description" #description="ngModel"
+                  [(ngModel)]="postService.selectedPackage.description" placeholder="Description">
+                </textarea>
+              </mat-form-field>
+
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm(packageForm)">
+            <i class="fa fa-repeat"></i>
+            Reset</button>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="packageForm.invalid">
+            <i class="fa fa-floppy-o"></i>
+            Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
 
       <div class="modal-header">
         <h5 class="modal-title" id="newModalLabel">New package</h5>
@@ -12,7 +93,7 @@
       <div class="modal-body">
         <form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
           <div class="new-package-container">
-            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPost.$key">
+            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPackage.$key">
             <mat-form-field>
               <input matInput placeholder="Title">
             </mat-form-field>
@@ -20,7 +101,7 @@
             <mat-form-field>
               <mat-select placeholder="Assigned a package with">
                 <mat-option value="Unassigned">Unassigned</mat-option>
-                <mat-option *ngFor="let truck of trucks" [value]="truck">{{truck}}</mat-option>
+                <mat-option *ngFor="let truck of trucks" [value]="truck.serial">{{truck.serial}}</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -43,45 +124,4 @@
       </div>
     </div>
   </div>
-</div>
-
-
-
-<!-- <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-<form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
-    <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPost.$key">
-  <div class="form-group">
-    <label>Name</label>
-    <input class="form-control" name="name" #name="ngModel" [(ngModel)]="postService.selectedPost.name" placeholder="Full Name" required>
-  </div>
-  <div class="form-group">
-    <label>Position</label>
-    <input class="form-control" name="position" #position="ngModel" [(ngModel)]="postService.selectedPost.position" placeholder="Position">
-  </div>
-  <div class="form-group">
-    <label>Office</label>
-    <input class="form-control" name="office" #office="ngModel" [(ngModel)]="postService.selectedPost.office" placeholder="Office">
-  </div>
-  <div class="form-group">
-    <label>Salary</label>
-    <div class="input-group">
-        <div class="input-group-addon">
-          <i class="fa fa-dollar"></i>
-        </div>
-        <input class="form-control" name="salary" #salary="ngModel" [(ngModel)]="postService.selectedPost.salary" placeholder="Salary">
-    </div>
-  </div>
-  <div class="form-group">
-    <button class="btn btn-default" type="submit" [disabled]="packageForm.invalid">
-      <i class="fa fa-floppy-o"></i>
-       Submit</button>
-    <button class="btn btn-default" type="button" (click)="resetForm(packageForm)">
-      <i class="fa fa-repeat"></i>
-       Reset</button>
-  </div>
-</form>
-</div>
-</div>
 </div> -->

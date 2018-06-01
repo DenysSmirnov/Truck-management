@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Truck, Package } from '../models/post';
-import { Observable, of } from 'rxjs';
+// import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PostService {
@@ -71,7 +71,7 @@ export class PostService {
       serial: pack.serial,
       recipient: {
         description: pack.description,
-        date: pack.date,
+        date: pack.date, // date
         firstName: pack.firstName,
         lastName: pack.lastName
       }

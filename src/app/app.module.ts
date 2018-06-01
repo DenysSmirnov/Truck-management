@@ -27,6 +27,8 @@ import { environment } from '../environments/environment';
 
 import { PostService } from './services/post.service';
 import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth-guard.service';
+// import { HttpClientModule } from '@angular/common/http';
 
 
 const MY_DATE_FORMATS = {
@@ -73,11 +75,13 @@ const MATERIAL_MODULES = [
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    // HttpClientModule
   ],
   providers: [
     PostService,
     AuthService,
+    AuthGuard,
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
   ],
   bootstrap: [AppComponent]

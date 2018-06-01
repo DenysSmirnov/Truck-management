@@ -16,7 +16,7 @@ export class AuthService {
       (user) => {
         if (user) {
           this.userDetails = user;
-          console.log(this.userDetails);
+          localStorage.setItem('currentUser', JSON.stringify(this.userDetails.uid));
         } else {
           this.userDetails = null;
         }
@@ -35,6 +35,7 @@ export class AuthService {
   logout() {
     this._firebaseAuth.auth.signOut()
       .then((res) => this.router.navigate(['/login']));
+    localStorage.removeItem('currentUser');
   }
 
   signInRegular(email, password) {

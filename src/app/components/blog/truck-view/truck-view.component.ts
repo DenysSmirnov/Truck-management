@@ -26,11 +26,12 @@ export class TruckViewComponent implements OnInit {
         y['$key'] = element.key;
         this.postList.push(y as Truck);
       });
+      // console.log(this.postList);
     });
   }
 
   onEdit(emp: Truck) {
-    this.postService.selectedPost = Object.assign({}, emp);
+    this.postService.selectedPost = Object.assign({}, emp['driver'], emp);
   }
 
   onDelete(key: string) {
