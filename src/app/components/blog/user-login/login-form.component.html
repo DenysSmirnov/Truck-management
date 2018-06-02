@@ -23,7 +23,17 @@
   </mat-card-content>
   <div class="button-row">
     <mat-card-actions>
-      <button mat-raised-button (click)="signInWithEmail()" color="primary">Login</button>
+      <button mat-raised-button class="w-100" (click)="signInWithEmail()" color="primary">Login</button>
+      <div class="text-center">or</div>
+      <!-- <div *ngIf="invalidLogin" class="error">
+        <div>Invalid credentials.</div>
+      </div> -->
+      <button type="button" class="btn btn-block mt-1" (click)="signInWithGithub()">
+        <i class="fa fa-github" aria-hidden="true"></i> Login with Github
+      </button>
+      <button type="button" class="btn btn-block mt-1" (click)="signInWithGoogle()">
+        <i class="fa fa-google" aria-hidden="true"></i> Login with Google
+      </button>
       <button mat-button color="primary" type="submit">Forgot password?</button>
     </mat-card-actions>
   </div>

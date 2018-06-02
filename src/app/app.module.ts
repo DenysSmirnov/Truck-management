@@ -11,6 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ToastrModule } from 'ngx-toastr';
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { BlogComponent } from './components/blog/blog.component';
@@ -28,7 +29,6 @@ import { environment } from '../environments/environment';
 import { PostService } from './services/post.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
-// import { HttpClientModule } from '@angular/common/http';
 
 
 const MY_DATE_FORMATS = {
@@ -76,7 +76,7 @@ const MATERIAL_MODULES = [
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     ToastrModule.forRoot(),
-    // HttpClientModule
+    DragulaModule
   ],
   providers: [
     PostService,

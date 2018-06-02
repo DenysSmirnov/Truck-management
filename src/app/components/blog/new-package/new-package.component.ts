@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-// import { TruckViewComponent } from '../truck-view/truck-view.component';
 
 @Component({
   selector: 'app-new-package',
@@ -17,24 +16,15 @@ export class NewPackageComponent implements OnInit {
   //   'Truck2',
   //   'Truck3',
   // ];
-  events: string[] = [];
-
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.events.push(`${type}: ${event.value}`);
-    console.log(this.events);
-  }
 
   constructor(
     private postService: PostService,
-    private tostr: ToastrService,
-    // private trucks: TruckViewComponent
-  ) { }
+    private tostr: ToastrService
+  ) {}
 
   ngOnInit() {
-    // this.postService.getPackages();
+    this.postService.getPackages();
     this.resetForm();
-    // this.trucks = this.trucks.postList;
-    // console.log(this.trucks);
   }
 
   onSubmit(packageForm: NgForm) {

@@ -23,8 +23,9 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthService) { }
 
-  // onSubmit(loginForm: NgForm) {
+  ngOnInit() {}
 
+  // onSubmit(loginForm: NgForm) {
   // }
 
   getErrorMessage() {
@@ -36,7 +37,6 @@ export class LoginFormComponent implements OnInit {
         this.user.pass.hasError('minLength') ? 'Password min length 6 symbols' : '';
   }
   signInWithEmail() {
-    // console.log('email: ', this.user.email.value, 'pass: ', this.user.pass.value);
     this.authService.signInRegular(this.user.email.value, this.user.pass.value)
       .then((res) => {
         console.log(res);
@@ -50,8 +50,18 @@ export class LoginFormComponent implements OnInit {
         this.user.pass.reset();
       });
   }
-
-  ngOnInit() {
+  signInWithGithub() {
+    this.authService.signInWithGithub()
+      .then((res) => {
+        this.router.navigate(['/']);
+      })
+      .catch((err) => console.log(err));
   }
-
+  signInWithGoogle() {
+    this.authService.signInWithGoogle()
+      .then((res) => {
+        this.router.navigate(['/']);
+      })
+      .catch((err) => console.log(err));
+  }
 }

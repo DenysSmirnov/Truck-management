@@ -42,5 +42,14 @@ export class AuthService {
     const credential = firebase.auth.EmailAuthProvider.credential( email, password );
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
-
+  signInWithGithub() {
+    return this._firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.GithubAuthProvider()
+    );
+  }
+  signInWithGoogle() {
+    return this._firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    );
+  }
 }

@@ -7,7 +7,7 @@
       <div role="separator" class="dropdown-divider"></div>
       <app-new-package></app-new-package>
       <button type="button" class="btn btn-outline-success my-sm-3 btn-block" 
-        data-toggle="modal" data-target="#newModal">New package</button>
+        data-toggle="modal" data-target="#newPackModal">New package</button>
 
       <app-new-driver></app-new-driver>
       <button type="button" class="btn btn-outline-warning my-sm-3 btn-block" 
@@ -20,8 +20,6 @@
       <div class="bg-grey">
         <app-truck-view></app-truck-view>
         <!-- *ngFor="let post of postList" [post]="post"> -->
-
-        <!-- <app-truck-view *ngFor="let packages of post" [packages]="packages"></app-truck-view>> -->
       </div>
       <!-- <div class="bg-white d-flex"> -->
         <!-- <app-truck-view *ngFor="let packages of post" [packages]="packages"></app-truck-view> -->
@@ -36,7 +34,16 @@
       </form> -->
       <h5>Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
-
+        <mat-card class="_package" *ngFor="let pack of packageList">
+          <mat-card-header>
+            <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            {{ pack.recipient.date }}<br>
+            {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
+            {{ pack.recipient.description }}
+          </mat-card-content>
+        </mat-card>
     </div>
   </div>
 </div>

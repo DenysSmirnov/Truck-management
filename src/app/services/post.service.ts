@@ -6,6 +6,7 @@ import { Truck, Package } from '../models/post';
 @Injectable()
 export class PostService {
   postList: AngularFireList<any>;
+  packList: AngularFireList<any>;
   selectedPost: Truck = new Truck();
   selectedPackage: Package = new Package();
   // public posts: Observable<Truck[]>;
@@ -61,17 +62,17 @@ export class PostService {
   }
 
   public getPackages() {
-    this.postList = this.firebase.list('packages');
-    return this.postList;
+    this.packList = this.firebase.list('packages');
+    return this.packList;
   }
 
   public insertPackage(pack: Package) {
-    this.postList.push({
+    this.packList.push({
       id: pack.id,
       serial: pack.serial,
       recipient: {
         description: pack.description,
-        date: pack.date, // date
+        date: new Date(pack.date).toLocaleDateString('en-US'),
         firstName: pack.firstName,
         lastName: pack.lastName
       }
@@ -79,7 +80,7 @@ export class PostService {
   }
 
   public updatePackage(pack: Package) {
-    this.postList.update(pack.$key,
+    this.packList.update(pack.$key,
       {
         id: pack.id,
         serial: pack.serial,
@@ -93,6 +94,6 @@ export class PostService {
   }
 
   public deletePackage($key: string) {
-    this.postList.remove($key);
+    this.packList.remove($key);
   }
 }

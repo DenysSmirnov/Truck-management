@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Truck } from '../../models/post';
+import { Truck, Package } from '../../models/post';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
 // import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,8 @@ import { AuthService } from '../../services/auth.service';
 
 export class BlogComponent implements OnInit {
   // public postList: Array<Truck> = [];
-  postList: Truck[];
+  // postList: Truck[];
+  packageList: Package[];
 
   constructor(
     private postService: PostService,
@@ -21,9 +22,17 @@ export class BlogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const x = this.postService.getPackages();
+    x.snapshotChanges().subscribe(item => {
+      this.packageList = [];
+      item.forEach(element => {
+        const y = element.payload.toJSON();
+        y['$key'] = element.key;
+        this.packageList.push(y as Package);
+      });
+      // console.log(this.packageList);
+    });
 
-    // const isLoggedIn = this.authService.isLoggedIn();
-    // console.log(this.authService.isLoggedIn());
     // console.log(this.postService.postList);
     // this.postService.posts.subscribe(posts => {
     //   this.postList = posts;

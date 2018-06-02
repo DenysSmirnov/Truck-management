@@ -13,6 +13,13 @@
 #message-text {
   height: 150px;
 }
+._package {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f62;
+  border-radius: 5px;
+}
+
 @media (min-width: 576px) {
 .form-control {
   width: 100%;
