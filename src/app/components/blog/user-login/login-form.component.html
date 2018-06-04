@@ -7,7 +7,7 @@
         <!-- #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" -->
       <div class="login-container">
         <mat-form-field>
-          <input matInput placeholder="Your email" [type]="email" [formControl]="user.email" required>
+          <input matInput placeholder="Your email" [type]="email" [formControl]="user.email" autocomplete="off" required>
           <!-- <input matInput [type]="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" required> -->
           <mat-error *ngIf="user.email.invalid">{{ getErrorMessage() }}</mat-error>
         </mat-form-field>
@@ -19,15 +19,15 @@
           <mat-error *ngIf="user.pass.invalid">{{ getPassErrorMessage() }}</mat-error>
         </mat-form-field>
       </div>
+    
+      <mat-error *ngIf="error">{{ error }}</mat-error>
     </form>
   </mat-card-content>
   <div class="button-row">
     <mat-card-actions>
-      <button mat-raised-button class="w-100" (click)="signInWithEmail()" color="primary">Login</button>
+      <button mat-raised-button class="w-100" (click)="signInWithEmail()" color="primary"
+      [disabled]="user.email.invalid || user.pass.invalid">Login</button>
       <div class="text-center">or</div>
-      <!-- <div *ngIf="invalidLogin" class="error">
-        <div>Invalid credentials.</div>
-      </div> -->
       <button type="button" class="btn btn-block mt-1" (click)="signInWithGithub()">
         <i class="fa fa-github" aria-hidden="true"></i> Login with Github
       </button>

@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 
 export class LoginFormComponent implements OnInit {
   // hide = true;
+  error: any;
   user = {
     email : new FormControl('', [Validators.required, Validators.email]),
     pass : new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -45,7 +46,7 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate(['/']);
       })
       .catch((err) => {
-        console.log(err);
+        this.error = err;
         this.user.email.reset();
         this.user.pass.reset();
       });
@@ -55,13 +56,13 @@ export class LoginFormComponent implements OnInit {
       .then((res) => {
         this.router.navigate(['/']);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.error = err);
   }
   signInWithGoogle() {
     this.authService.signInWithGoogle()
       .then((res) => {
         this.router.navigate(['/']);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.error = err);
   }
 }

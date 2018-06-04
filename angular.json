@@ -23,7 +23,8 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/dragula/dist/dragula.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -83,7 +84,8 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/dragula/dist/dragula.css"
             ],
             "assets": [
               "src/assets",

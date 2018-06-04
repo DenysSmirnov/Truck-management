@@ -1,7 +1,7 @@
 <div class="row mt-5 mb-5">
   <div class="col-md-2">
     <div class="bg-white column p-3">
-      <!-- <a *ngIf="!this.authService.isLoggedIn()" routerLink="/login" class="btn btn-outline-secondary my-sm-3 btn-block">Login</a> -->
+
       <a *ngIf="this.authService.isLoggedIn()" class="btn btn-outline-secondary my-sm-3 btn-block" (click)="authService.logout()">Logout</a>
 
       <div role="separator" class="dropdown-divider"></div>
@@ -19,31 +19,30 @@
       <h5>Trucks</h5>
       <div class="bg-grey">
         <app-truck-view></app-truck-view>
-        <!-- *ngFor="let post of postList" [post]="post"> -->
       </div>
-      <!-- <div class="bg-white d-flex"> -->
-        <!-- <app-truck-view *ngFor="let packages of post" [packages]="packages"></app-truck-view> -->
-      <!-- </div> -->
+
+      <div>
+        <app-unassigned class="d-flex flex-row flex-wrap" [dragula]='"bag-one"' [dragulaModel]='packageList'></app-unassigned>
+      </div>
+
     </div>
   </div>
   <div class="col-md-3">
     <div class="bg-white column p-3">
-      <!-- <form class="form-inline my-2 my-lg-0">
-        <input class="form-control sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0 btn-block" type="submit">Search</button>
-      </form> -->
       <h5>Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
-        <mat-card class="_package" *ngFor="let pack of packageList">
-          <mat-card-header>
-            <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            {{ pack.recipient.date }}<br>
-            {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
-            {{ pack.recipient.description }}
-          </mat-card-content>
-        </mat-card>
+      <div>
+        <app-unassigned [dragula]='"bag-one"' [dragulaModel]='packageList'></app-unassigned>
+      </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+ <!-- <form class="form-inline my-2 my-lg-0">
+        <input class="form-control sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0 btn-block" type="submit">Search</button>
+      </form> -->

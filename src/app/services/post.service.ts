@@ -5,29 +5,26 @@ import { Truck, Package } from '../models/post';
 
 @Injectable()
 export class PostService {
-  postList: AngularFireList<any>;
+  trucksRef: AngularFireList<any>;
   packList: AngularFireList<any>;
   selectedPost: Truck = new Truck();
   selectedPackage: Package = new Package();
-  // public posts: Observable<Truck[]>;
 
-  // public posts: Observable<Post[]>;
-
-  constructor(private firebase: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
     // this.posts = Observable.create((observer) => {
     //   // setTimeout(() => {
-    //     observer.next(this.postList);
+    //     observer.next(this.trucksRef);
     //   // }, 2000);
     // });
   }
 
   public getData() {
-    this.postList = this.firebase.list('trucks');
-    return this.postList;
+    this.trucksRef = this.db.list<Truck>('trucks');
+    return this.trucksRef;
   }
 
   public insertTruck(truck: Truck) {
-    this.postList.push({
+    this.trucksRef.push({
       id: truck.id,
       serial: truck.serial,
       driver: {
@@ -39,12 +36,12 @@ export class PostService {
     });
   }
   // public getSinglePost(id: number): Observable<Post> {
-  //   const singlePost = this.postList.filter(post => post.id === id).pop();
+  //   const singlePost = this.trucksRef.filter(post => post.id === id).pop();
   //   return of(singlePost);
   // }
 
   public updateTruck(truck: Truck) {
-    this.postList.update(truck.$key,
+    this.trucksRef.update(truck.$key,
       {
         id: truck.id,
         serial: truck.serial,
@@ -58,11 +55,11 @@ export class PostService {
   }
 
   public deleteTruck($key: string) {
-    this.postList.remove($key);
+    this.trucksRef.remove($key);
   }
 
   public getPackages() {
-    this.packList = this.firebase.list('packages');
+    this.packList = this.db.list<Package>('packages');
     return this.packList;
   }
 
