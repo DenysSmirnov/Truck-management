@@ -22,7 +22,12 @@
 }
 
 @media (min-width: 576px) {
-.form-control {
-  width: 100%;
+  .form-control {
+    width: 100%;
+  }
 }
+@media (max-width: 767px) {
+  .column {
+    min-height: 0!important;
+  }
 }

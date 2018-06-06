@@ -29,6 +29,7 @@ export class Package {
   date: string;
   firstName: string;
   lastName: string;
+  truck: number;
 }
 
   // constructor(

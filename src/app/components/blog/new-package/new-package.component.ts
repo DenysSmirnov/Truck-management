@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Truck } from '../../../models/post';
 
 @Component({
   selector: 'app-new-package',
@@ -10,12 +11,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./new-package.component.scss']
 })
 export class NewPackageComponent implements OnInit {
-
-  // trucks: string[] = [
-  //   'Truck1',
-  //   'Truck2',
-  //   'Truck3',
-  // ];
+  postList: Truck[];
 
   constructor(
     private postService: PostService,
@@ -23,19 +19,29 @@ export class NewPackageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.postService.getPackages();
-    this.resetForm();
+    // this.postService.getPackages();
+    const x = this.postService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.postList = [];
+      item.forEach(element => {
+        // console.log(element);
+        const y = element.payload.toJSON();
+        // console.log(y);
+        y['$key'] = element.key;
+        this.postList.push(y as Truck);
+      });
+      console.log(this.postList);
+    });
+
   }
 
   onSubmit(packageForm: NgForm) {
     if (packageForm.value.$key == null) {
       this.postService.insertPackage(packageForm.value);
-      // this.resetForm(packageForm);
-      this.tostr.success('Submitted Successfully', 'Package Register');
+      this.tostr.success('Submitted Successfully', 'Package Registered');
     } else {
       this.postService.updatePackage(packageForm.value);
-      // this.resetForm(packageForm);
-      this.tostr.success('Submitted Successfully', 'Package Update');
+      this.tostr.success('Submitted Successfully', 'Package Updated');
     }
     this.resetForm(packageForm);
   }
@@ -50,7 +56,8 @@ export class NewPackageComponent implements OnInit {
       description: '',
       firstName: '',
       lastName: '',
-      date: null
+      date: null,
+      truck: null
     };
   }
 

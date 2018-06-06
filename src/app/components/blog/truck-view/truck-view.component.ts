@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Truck, Package } from '../../../models/post';
 import { PostService } from '../../../services/post.service';
-import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 @Component({
@@ -14,11 +13,10 @@ export class TruckViewComponent implements OnInit {
   // @Input() post: Truck;
   postList: Truck[];
   packageList: Package[];
+  @Output() changed = new EventEmitter<Truck>();
+  @Output() deleted = new EventEmitter<string>();
 
-  constructor(
-    private postService: PostService,
-    private tostr: ToastrService
-  ) { }
+  constructor(private postService: PostService) {}
 
   ngOnInit() {
     // this.selectedDatePackages();
@@ -49,15 +47,11 @@ export class TruckViewComponent implements OnInit {
     });
   }
 
-  onEdit(emp: Truck) {
-    this.postService.selectedPost = Object.assign({}, emp['driver'], emp);
+  onEdit(post: Truck) {
+    this.changed.emit(post);
   }
-
   onDelete(key: string) {
-    if (confirm('Are you sure to delete this record ?') === true) {
-      this.postService.deleteTruck(key);
-      this.tostr.warning('Deleted Successfully', 'Package Delete');
-    }
+    this.deleted.emit(key);
   }
 
 }

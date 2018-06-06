@@ -13,7 +13,7 @@ export class UnassignedComponent implements OnInit {
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    const x = this.postService.getPackages();
+    const x = this.postService.getUnassignedPackages();
     x.snapshotChanges().subscribe(item => {
       this.packageList = [];
       item.forEach(element => {
@@ -21,7 +21,7 @@ export class UnassignedComponent implements OnInit {
         y['$key'] = element.key;
         this.packageList.push(y as Package);
       });
-      console.log('packlist: ', this.packageList);
+      // console.log('packlist: ', this.packageList);
     });
   }
 

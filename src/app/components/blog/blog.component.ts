@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Truck, Package } from '../../models/post';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
-// import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Observable } from 'rxjs';
 // import { map } from 'rxjs/operators';
@@ -22,12 +22,15 @@ export class BlogComponent implements OnInit {
   // options: any = {
   //   removeOnSpill: true
   // };
+  // @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+  showDriver = false;
+  showPackage = false;
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
-    private dragulaService: DragulaService
-    // private tostr: ToastrService
+    private dragulaService: DragulaService,
+    private tostr: ToastrService
   ) {
       // dragulaService.setOptions('bag-one', {drag: true});
       dragulaService.drop.subscribe((value) => {
@@ -42,17 +45,28 @@ export class BlogComponent implements OnInit {
     console.log(e, el);
   }
 
+  showDriverModal() {
+    this.showDriver = true;
+  }
+  showPackageModal() {
+    this.showPackage = true;
+  }
+
   ngOnInit() {
-    // const x = this.postService.getPackages();
-    // x.snapshotChanges().subscribe(item => {
-    //   this.packageList = [];
-    //   item.forEach(element => {
-    //     const y = element.payload.toJSON();
-    //     y['$key'] = element.key;
-    //     this.packageList.push(y as Package);
-    //   });
-    //   console.log('packlist: ', this.packageList);
-    // });
+    const now = new Date().toLocaleDateString('en-US');
+    const x = this.postService.getPackages(now);
+    x.snapshotChanges().subscribe(item => {
+      this.packageList = [];
+      item.forEach(element => {
+        const y = element.payload.toJSON();
+        y['$key'] = element.key;
+        this.packageList.push(y as Package);
+      });
+      this.packageList = this.packageList.filter(pack => pack['truck']);
+      // console.log('packlist: ', this.packageList);
+      // console.log(this.events);
+    });
+
 
     // const a = this.postService.getData();
     // this.postList = a.snapshotChanges().pipe(
@@ -60,28 +74,18 @@ export class BlogComponent implements OnInit {
     //     changes.map(el => ({ key: el.payload.key, ...el.payload.toJSON() }))
     //   )
     // );
-    const a = this.postService.getData();
-    a.snapshotChanges().subscribe(item => {
-      this.packageList = [];
-      item.forEach(element => {
-        const b = element.payload.toJSON();
-        b['$key'] = element.key;
-        this.packageList.push(b as Package);
-      });
-      console.log('postlist: ', this.postList);
-    });
-
   }
 
-  // onEdit(emp: Truck) {
-  //   this.postService.selectedPost = Object.assign({}, emp);
-  // }
+  onChanged(post: Truck) {
+    this.showDriver = true;
+    this.postService.selectedPost = Object.assign({}, post['driver'], post);
+  }
 
-  // onDelete(key: string) {
-  //   if (confirm('Are you sure to delete this record ?') === true) {
-  //     this.postService.deleteTruck(key);
-  //     this.tostr.warning('Deleted Successfully', 'package register');
-  //   }
-  // }
+  onDeleted(key: string) {
+    if (confirm('Are you sure to delete this record ?') === true) {
+      this.postService.deleteTruck(key);
+      this.tostr.warning('Deleted Successfully', 'Package Delete');
+    }
+  }
 
 }

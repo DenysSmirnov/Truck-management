@@ -19,7 +19,7 @@ export class PostService {
   }
 
   public getData() {
-    this.trucksRef = this.db.list<Truck>('trucks');
+    this.trucksRef = this.db.list('trucks');
     return this.trucksRef;
   }
 
@@ -58,8 +58,23 @@ export class PostService {
     this.trucksRef.remove($key);
   }
 
-  public getPackages() {
-    this.packList = this.db.list<Package>('packages');
+  public getPackages(date?: string) {
+    if (date) {
+      this.packList = this.db.list('packages', ref =>
+      ref.orderByChild('date').equalTo(date));
+      return this.packList;
+    }
+    // return this.packList = this.db.list('packages');
+    console.log(this.packList);
+    // this.packList = this.db.list('packages', ref =>
+    //   ref.orderByChild('date').equalTo(Date.now()));
+    //   console.log(Date.now());
+    //   return this.packList;
+  }
+
+  public getUnassignedPackages() {
+    this.packList = this.db.list('packages', ref =>
+      ref.orderByChild('truck').equalTo(null));
     return this.packList;
   }
 
@@ -67,13 +82,15 @@ export class PostService {
     this.packList.push({
       id: pack.id,
       serial: pack.serial,
+      description: pack.description,
+      date: new Date(pack.date).toLocaleDateString('en-US'),
       recipient: {
-        description: pack.description,
-        date: new Date(pack.date).toLocaleDateString('en-US'),
         firstName: pack.firstName,
         lastName: pack.lastName
-      }
+      },
+      truck: pack.truck
     });
+    // console.log(pack.date);
   }
 
   public updatePackage(pack: Package) {
@@ -81,12 +98,13 @@ export class PostService {
       {
         id: pack.id,
         serial: pack.serial,
+        description: pack.description,
+        date: pack.date,
         recipient: {
-          description: pack.description,
-          date: pack.date,
           firstName: pack.firstName,
           lastName: pack.lastName
-        }
+        },
+        truck: pack.truck
       });
   }
 

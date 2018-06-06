@@ -8,8 +8,8 @@
       <tr>{{ post.driver.phone }}</tr>
     </td>
     <td class="text-right">
-      <a class="btn" (click)="onEdit(post)">
-          <!-- data-target="#newModal" -->
+      <a class="btn" data-toggle="modal" data-target="#newDriverModal"
+        (click)="onEdit(post)">
         <i class="fa fa-pencil-square-o"></i>
       </a>
       <a class="btn" (click)="onDelete(post.$key)">

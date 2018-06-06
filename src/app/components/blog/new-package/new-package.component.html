@@ -34,11 +34,6 @@
                   [(ngModel)]="postService.selectedPackage.lastName" placeholder="Last Name" required>
               </mat-form-field>
 
-              <!-- <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field> -->
               <mat-form-field>
                 <input matInput [matDatepicker]="picker" class="form-control" name="date"
                 [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date">
@@ -47,9 +42,11 @@
               </mat-form-field>
 
               <mat-form-field>
-                <mat-select placeholder="Assigned a package with">
+                <mat-select class="form-control" name="truck" placeholder="Assigned a package with (Driver)"
+                  #truck="ngModel" [(ngModel)]="postService.selectedPackage.truck">
                   <mat-option value="Unassigned">Unassigned</mat-option>
-                  <mat-option *ngFor="let truck of trucks" [value]="truck">{{truck}}</mat-option>
+                  <mat-option [value]="post.id" *ngFor="let post of postList">{{post.id}} 
+                    {{post.driver.lastName}} {{post.driver.firstName}}</mat-option>
                 </mat-select>
               </mat-form-field>
 
@@ -62,7 +59,8 @@
             </div>
           </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+            (click)="resetForm(packageForm)">Cancel</button>
           <button type="button" class="btn btn-outline-secondary" (click)="resetForm(packageForm)">
             <i class="fa fa-repeat"></i>
             Reset</button>

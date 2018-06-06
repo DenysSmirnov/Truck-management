@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-white column">
+  <a class="navbar-brand" routerLink="/">Truck management</a>
+
+  <div class="d-flex w-100 justify-content-around align-items-center">
+    <div class="d-flex">
+      <div class="box-search-container mr-3">
+        <input aria-label="search1" placeholder="Search truck" type="search">
+      </div>
+      <div class="box-search-container">
+        <input aria-label="search2" placeholder="Search package" type="search">
+      </div>
+    </div>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date"
+      (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</nav>
