@@ -1,7 +1,9 @@
-._package {
-    margin: 20px;
-    padding: 20px;
-    background-color: #f62;
-    border-radius: 5px;
-    cursor: pointer;
+div.buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  a {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
 }

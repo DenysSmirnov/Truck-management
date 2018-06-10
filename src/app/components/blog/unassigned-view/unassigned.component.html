@@ -1,5 +1,14 @@
 <mat-card class="_package" *ngFor="let pack of packageList">
   <mat-card-header>
+    <div class="buttons">
+      <a class="btn" data-toggle="modal" data-target="#newPackModal"
+        (click)="onEdit(pack)">
+        <i class="fa fa-pencil-square-o"></i>
+      </a>
+      <a class="btn" (click)="onDelete(pack.$key)">
+        <i class="fa fa-trash-o"></i>
+      </a>
+    </div>
     <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>

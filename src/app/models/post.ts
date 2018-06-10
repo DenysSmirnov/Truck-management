@@ -1,11 +1,11 @@
-function* generateId() {
-  let index = 1;
-  while (true) {
-    yield index++;
-  }
-}
+// function* generateId() {
+//   let index = 1;
+//   while (true) {
+//     yield index++;
+//   }
+// }
 
-const generator = generateId();
+// const generator = generateId();
 
 export class Truck {
   $key: string;
@@ -16,9 +16,9 @@ export class Truck {
   lastName: string;
   phone: number;
 
-  constructor() {
-    this.id = generator.next().value;
-  }
+  // constructor() {
+  //   this.id = generator.next().value;
+  // }
 }
 
 export class Package {
@@ -29,13 +29,5 @@ export class Package {
   date: string;
   firstName: string;
   lastName: string;
-  truck: number;
+  truck: string;
 }
-
-  // constructor(
-  //   // public description: string,
-  //   // public packages: object
-  // )
-  // {
-  //   this.id = generator.next().value;
-  // }

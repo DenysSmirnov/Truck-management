@@ -1,32 +1,53 @@
-<app-header></app-header>
+<app-header (changedDate)="onChangeDate($event)"></app-header>
 <div class="row mt-4 mb-5">
   <div class="col-md-2">
     <div class="bg-white column p-3">
 
-      <a *ngIf="this.authService.isLoggedIn()" class="btn btn-outline-secondary my-sm-3 btn-block" (click)="authService.logout()">Logout</a>
+      <a *ngIf="this.authService.isLoggedIn()" class="btn btn-outline-secondary my-sm-3 btn-block"
+        (click)="authService.logout()">Logout</a>
 
       <div role="separator" class="dropdown-divider"></div>
       <app-new-package *ngIf="showPackage"></app-new-package>
       <button type="button" class="btn btn-outline-success my-sm-3 btn-block" 
-        data-toggle="modal" data-target="#newPackModal" (click)="showPackageModal()">New package</button>
+        data-toggle="modal" data-target="#newPackModal"
+        (click)="showPackageModal()">New package</button>
 
       <app-new-driver *ngIf="showDriver"></app-new-driver>
       <button type="button" class="btn btn-outline-warning my-sm-3 btn-block" 
-        data-toggle="modal" data-target="#newDriverModal" (click)="showDriverModal()">New driver</button>
+        data-toggle="modal" data-target="#newDriverModal"
+        (click)="showDriverModal()">New driver</button>
     </div>
   </div>
   <div class="col-md-7">
     <div class="bg-white column p-3">
       <h5>Trucks</h5>
       <div class="bg-grey">
-        <app-truck-view (changed)="onChanged($event)" (deleted)="onDeleted($event)"></app-truck-view>
+        <app-truck-view [postList]="postList" [packageList]="packageList"
+          (changed)="onChangedTruck($event)" (deleted)="onDeletedTruck($event)"
+          (changedPackage)="onChangedPackage($event)" (deletedPackage)="onDeletedPackage($event)">
+
+
+          <!-- <div class="d-flex flex-row flex-wrap" [dragula]='"bag-one"' [dragulaModel]='packageList'>
+            <mat-card class="_package" *ngFor="let pack of packageList">
+              <mat-card-header>
+                <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                {{ pack.date }}<br>
+                {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
+                {{ pack.description }}
+              </mat-card-content>
+            </mat-card>
+          </div> -->
+
+        </app-truck-view>
       </div>
 
       <!-- <div>
         <app-unassigned class="d-flex flex-row flex-wrap" [dragula]='"bag-one"' [dragulaModel]='packageList'></app-unassigned>
       </div> -->
 
-      <div class="d-flex flex-row flex-wrap" [dragula]='"bag-one"' [dragulaModel]='packageList'>
+      <!-- <div class="d-flex flex-row flex-wrap" [dragula]='"bag-one"' [dragulaModel]='packageList'>
         <mat-card class="_package" *ngFor="let pack of packageList">
           <mat-card-header>
             <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
@@ -37,7 +58,7 @@
             {{ pack.description }}
           </mat-card-content>
         </mat-card>
-      </div>
+      </div> -->
 
     </div>
   </div>
@@ -46,7 +67,8 @@
       <h5>Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
       <div>
-        <app-unassigned [dragula]='"bag-one"' [dragulaModel]='packageList'></app-unassigned>
+        <app-unassigned [packageList]="unPackageList" [dragula]='"bag-one"' [dragulaModel]='packageList'
+          (unChangedPack)="onChangedPackage($event)" (unDeletedPack)="onDeletedPackage($event)"></app-unassigned>
       </div>
     </div>
   </div>

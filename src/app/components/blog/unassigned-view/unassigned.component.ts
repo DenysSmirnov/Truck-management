@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Package } from '../../../models/post';
-import { PostService } from '../../../services/post.service';
 
 @Component({
   selector: 'app-unassigned',
@@ -8,21 +7,18 @@ import { PostService } from '../../../services/post.service';
   styleUrls: ['./unassigned.component.scss']
 })
 export class UnassignedComponent implements OnInit {
-  packageList: Package[];
+  @Input() packageList: Package[];
+  @Output() unChangedPack = new EventEmitter<Package>();
+  @Output() unDeletedPack = new EventEmitter<string>();
 
-  constructor(private postService: PostService) { }
+  constructor() {}
 
-  ngOnInit() {
-    const x = this.postService.getUnassignedPackages();
-    x.snapshotChanges().subscribe(item => {
-      this.packageList = [];
-      item.forEach(element => {
-        const y = element.payload.toJSON();
-        y['$key'] = element.key;
-        this.packageList.push(y as Package);
-      });
-      // console.log('packlist: ', this.packageList);
-    });
+  ngOnInit() {}
+
+  onEdit(pack: Package) {
+    this.unChangedPack.emit(pack);
   }
-
+  onDelete(key: string) {
+    this.unDeletedPack.emit(key);
+  }
 }

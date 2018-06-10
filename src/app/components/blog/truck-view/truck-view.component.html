@@ -1,52 +1,80 @@
-<table class="table table-sm table-hover border">
-  <tr class="one" *ngFor="let post of postList">   
-    <td>{{ post.serial }}</td>
-    <td>id: {{ post.id }}</td>
-    <td>
-      <tr>{{ post.driver.lastName }} {{ post.driver.firstName }}</tr> 
-      <tr>{{ post.driver.email }}</tr>
-      <tr>{{ post.driver.phone }}</tr>
-    </td>
-    <td class="text-right">
-      <a class="btn" data-toggle="modal" data-target="#newDriverModal"
-        (click)="onEdit(post)">
-        <i class="fa fa-pencil-square-o"></i>
-      </a>
-      <a class="btn" (click)="onDelete(post.$key)">
-        <i class="fa fa-trash-o"></i>
-      </a>
-    </td>
-  </tr>
+<table class="table table-sm border">
+  <div class="bg-white p-2 mb-last-0 shadow" *ngFor="let pack of packageList">
+    <tr *ngFor="let post of postList">
+      <div class="bg-grey d-flex justify-content-between align-items-center"
+        *ngIf="pack.truck === post.$key">
+        <td>{{ post.serial }}</td>
+        <td>id: {{ post.id }}</td>
+        <td>
+          <tr>{{ post.driver.lastName }} {{ post.driver.firstName }}</tr> 
+          <tr>{{ post.driver.email }}</tr>
+          <tr>{{ post.driver.phone }}</tr>
+        </td>
+        <td class="text-right">
+          <a class="btn" data-toggle="modal" data-target="#newDriverModal"
+            (click)="onEdit(post)">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+          <a class="btn" (click)="onDelete(post.$key)">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </td>
+      </div>
+    </tr>
 
-  
-  <!-- <tr class="d-flex" [dragula]='"bag-one"' [dragulaModel]='packageList'>
-    <td class="_package" *ngFor="let pack of packageList">
-      <mat-card>
+    <div class="d-flex flex-row flex-wrap" [dragula]='"bag-one"'>
+      <mat-card class="_package"> 
+          <!-- *ngFor="let pack of packageList" -->
         <mat-card-header>
+          <div class="buttons">
+            <a class="btn" data-toggle="modal" data-target="#newPackModal"
+              (click)="onEditPack(pack)">
+              <i class="fa fa-pencil-square-o"></i>
+            </a>
+            <a class="btn" (click)="onDelete(pack.$key)">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
           <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          {{ pack.recipient.date }}<br>
+          {{ pack.date }}<br>
           {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
-          {{ pack.recipient.description }}
+          {{ pack.description }}
         </mat-card-content>
       </mat-card>
-    </td>
-  </tr> -->
-
-</table>
-
-<!-- <div>
-  <div class='wrapper'>
-    <div class='container' [dragula]='"bag-one"'>
-      <div>You can move these elements between these two containers</div>
-      <div>Moving them anywhere else isn't quite possible</div>
-      <div>There's also the possibility of moving elements around in the same container, changing their position</div>
-    </div>
-    <div class='container' [dragula]='"bag-one"'>
-      <div>This is the default use case. You only need to specify the containers you want to use</div>
-      <div>More interactive use cases lie ahead</div>
-      <div>Make sure to check out the <a href='https://github.com/bevacqua/dragula#readme'>documentation on GitHub!</a></div>
     </div>
   </div>
-</div> -->
+</table>
+
+
+<!-- <table class="table table-hover border">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table> -->

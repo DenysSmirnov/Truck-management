@@ -16,7 +16,7 @@
               
               <mat-form-field>
                 <input matInput class="form-control" name="id" #id="ngModel"
-                  [(ngModel)]="postService.selectedPackage.id" placeholder="ID">
+                  [(ngModel)]="postService.selectedPackage.id" placeholder="ID" required>
               </mat-form-field>
   
               <mat-form-field>
@@ -36,16 +36,16 @@
 
               <mat-form-field>
                 <input matInput [matDatepicker]="picker" class="form-control" name="date"
-                [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date">
+                [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
                 <mat-select class="form-control" name="truck" placeholder="Assigned a package with (Driver)"
-                  #truck="ngModel" [(ngModel)]="postService.selectedPackage.truck">
+                  #truck="ngModel" [(ngModel)]="postService.selectedPackage.truck" required>
                   <mat-option value="Unassigned">Unassigned</mat-option>
-                  <mat-option [value]="post.id" *ngFor="let post of postList">{{post.id}} 
+                  <mat-option [value]="post.$key" *ngFor="let post of postList">{{post.id}} 
                     {{post.driver.lastName}} {{post.driver.firstName}}</mat-option>
                 </mat-select>
               </mat-form-field>

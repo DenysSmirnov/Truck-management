@@ -10,13 +10,7 @@ export class PostService {
   selectedPost: Truck = new Truck();
   selectedPackage: Package = new Package();
 
-  constructor(private db: AngularFireDatabase) {
-    // this.posts = Observable.create((observer) => {
-    //   // setTimeout(() => {
-    //     observer.next(this.trucksRef);
-    //   // }, 2000);
-    // });
-  }
+  constructor(private db: AngularFireDatabase) {}
 
   public getData() {
     this.trucksRef = this.db.list('trucks');
@@ -35,10 +29,6 @@ export class PostService {
       }
     });
   }
-  // public getSinglePost(id: number): Observable<Post> {
-  //   const singlePost = this.trucksRef.filter(post => post.id === id).pop();
-  //   return of(singlePost);
-  // }
 
   public updateTruck(truck: Truck) {
     this.trucksRef.update(truck.$key,
@@ -56,25 +46,28 @@ export class PostService {
 
   public deleteTruck($key: string) {
     this.trucksRef.remove($key);
+    this.packList = this.db.list('packages', ref =>
+      ref.orderByChild('truck').equalTo($key));
+    if (this.packList != null) {
+      this.packList.snapshotChanges().subscribe(item => {
+        item.forEach(element => {
+          const y = element.payload.toJSON();
+          console.log(y);
+          y['truck'] = 'Unassigned';
+        });
+      });
+    }
   }
 
-  public getPackages(date?: string) {
-    if (date) {
-      this.packList = this.db.list('packages', ref =>
+  public getPackages(date: string) {
+    this.packList = this.db.list('packages', ref =>
       ref.orderByChild('date').equalTo(date));
-      return this.packList;
-    }
-    // return this.packList = this.db.list('packages');
-    console.log(this.packList);
-    // this.packList = this.db.list('packages', ref =>
-    //   ref.orderByChild('date').equalTo(Date.now()));
-    //   console.log(Date.now());
-    //   return this.packList;
+    return this.packList;
   }
 
   public getUnassignedPackages() {
     this.packList = this.db.list('packages', ref =>
-      ref.orderByChild('truck').equalTo(null));
+      ref.orderByChild('truck').equalTo('Unassigned'));
     return this.packList;
   }
 
@@ -99,7 +92,7 @@ export class PostService {
         id: pack.id,
         serial: pack.serial,
         description: pack.description,
-        date: pack.date,
+        date: new Date(pack.date).toLocaleDateString('en-US'),
         recipient: {
           firstName: pack.firstName,
           lastName: pack.lastName
@@ -112,3 +105,10 @@ export class PostService {
     this.packList.remove($key);
   }
 }
+
+
+
+  // public getSinglePost(id: number): Observable<Post> {
+  //   const singlePost = this.trucksRef.filter(post => post.id === id).pop();
+  //   return of(singlePost);
+  // }

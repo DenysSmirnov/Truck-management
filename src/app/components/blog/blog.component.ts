@@ -4,8 +4,7 @@ import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
-import { Observable } from 'rxjs';
-// import { map } from 'rxjs/operators';
+// import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-blog',
@@ -15,16 +14,15 @@ import { Observable } from 'rxjs';
 })
 
 export class BlogComponent implements OnInit {
-  // public postList: Array<Truck> = [];
   postList: Truck[];
-  // postList: Observable<Truck[]>;
   packageList: Package[];
+  unPackageList: Package[];
+  showDriver = false;
+  showPackage = false;
   // options: any = {
   //   removeOnSpill: true
   // };
-  // @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
-  showDriver = false;
-  showPackage = false;
+  // routes: Truck[] = [];
 
   constructor(
     private postService: PostService,
@@ -53,8 +51,19 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    const now = new Date().toLocaleDateString('en-US');
-    const x = this.postService.getPackages(now);
+    this.selectedDatePackages();
+    this.selectedDateTrucks();
+    this.unassignedPackages();
+  }
+
+  private selectedDatePackages(date?: string) {
+    let x: any;
+    if (date) {
+      x = this.postService.getPackages(date);
+    } else {
+      const now = new Date().toLocaleDateString('en-US');
+      x = this.postService.getPackages(now);
+    }
     x.snapshotChanges().subscribe(item => {
       this.packageList = [];
       item.forEach(element => {
@@ -62,30 +71,82 @@ export class BlogComponent implements OnInit {
         y['$key'] = element.key;
         this.packageList.push(y as Package);
       });
-      this.packageList = this.packageList.filter(pack => pack['truck']);
-      // console.log('packlist: ', this.packageList);
-      // console.log(this.events);
+      this.packageList = this.packageList.filter(pack => pack['truck'] !== 'Unassigned');
+      // console.log(this.packageList);
     });
-
-
-    // const a = this.postService.getData();
-    // this.postList = a.snapshotChanges().pipe(
-    //   map(changes =>
-    //     changes.map(el => ({ key: el.payload.key, ...el.payload.toJSON() }))
-    //   )
-    // );
   }
 
-  onChanged(post: Truck) {
+  private selectedDateTrucks(date?: string) {
+    const x = this.postService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.postList = [];
+      item.forEach(element => {
+        const y = element.payload.toJSON();
+        y['$key'] = element.key;
+
+        // this.packageList.filter(pack => pack['truck'] === element.key);
+        // console.log('!!', this.packageList);
+
+        this.postList.push(y as Truck);
+        // console.log(element.key);
+      });
+      // for (let post of this.postList) {
+      //   for (let pack of this.packageList) {
+      //     if (pack.truck === post.$key) {
+      //       if (post['packages'] && post['packages'].includes(pack.$key) === -1) {
+      //         post['packages'].push(pack.$key);
+      //       } else {
+      //         post['packages'] = [pack.$key];
+      //       }
+      //       this.routes.push(post);
+      //     }
+      //   }
+      // }
+      // console.log(this.routes);
+      console.log(this.postList);
+
+    });
+  }
+
+  private unassignedPackages() {
+    const x = this.postService.getUnassignedPackages();
+    x.snapshotChanges().subscribe(item => {
+      this.unPackageList = [];
+      item.forEach(element => {
+        const y = element.payload.toJSON();
+        y['$key'] = element.key;
+        this.unPackageList.push(y as Package);
+      });
+      // console.log('unPacklist: ', this.unPackageList);
+    });
+  }
+
+  onChangedTruck(post: Truck) {
     this.showDriver = true;
     this.postService.selectedPost = Object.assign({}, post['driver'], post);
   }
 
-  onDeleted(key: string) {
+  onDeletedTruck(key: string) {
     if (confirm('Are you sure to delete this record ?') === true) {
       this.postService.deleteTruck(key);
-      this.tostr.warning('Deleted Successfully', 'Package Delete');
+      this.tostr.warning('Deleted Successfully', 'Truck Deleted');
     }
+  }
+
+  onChangedPackage(pack: Package) {
+    this.showPackage = true;
+    this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
+  }
+
+  onDeletedPackage(key: string) {
+    if (confirm('Are you sure to delete this record ?') === true) {
+      this.postService.deletePackage(key);
+      this.tostr.warning('Deleted Successfully', 'Package Deleted');
+    }
+  }
+
+  onChangeDate(date: string) {
+    this.selectedDatePackages(date);
   }
 
 }

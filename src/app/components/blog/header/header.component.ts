@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
@@ -7,17 +7,14 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  events: string[] = [];
+  @Output() changedDate = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() {}
+
+  ngOnInit() {}
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.events.push(event.value.toLocaleDateString('en-US'));
-    console.log(this.events);
-
-  }
-
-  ngOnInit() {
+    this.changedDate.emit(event.value.toLocaleDateString('en-US'));
   }
 
 }

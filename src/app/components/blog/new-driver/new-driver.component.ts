@@ -9,10 +9,8 @@ import { ToastrService} from 'ngx-toastr';
   styleUrls: ['./new-driver.component.scss']
 })
 export class NewDriverComponent implements OnInit {
-  constructor(
-    private postService: PostService,
-    private tostr: ToastrService
-  ) { }
+
+  constructor(private postService: PostService, private tostr: ToastrService) {}
 
   ngOnInit() {
     this.postService.getData();

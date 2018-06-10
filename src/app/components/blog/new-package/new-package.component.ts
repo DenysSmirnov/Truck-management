@@ -13,13 +13,9 @@ import { Truck } from '../../../models/post';
 export class NewPackageComponent implements OnInit {
   postList: Truck[];
 
-  constructor(
-    private postService: PostService,
-    private tostr: ToastrService
-  ) {}
+  constructor(private postService: PostService, private tostr: ToastrService) {}
 
   ngOnInit() {
-    // this.postService.getPackages();
     const x = this.postService.getData();
     x.snapshotChanges().subscribe(item => {
       this.postList = [];
@@ -32,7 +28,6 @@ export class NewPackageComponent implements OnInit {
       });
       console.log(this.postList);
     });
-
   }
 
   onSubmit(packageForm: NgForm) {
