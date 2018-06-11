@@ -3,8 +3,10 @@
     <tr *ngFor="let post of postList">
       <div class="bg-grey d-flex justify-content-between align-items-center"
         *ngIf="pack.truck === post.$key">
-        <td>{{ post.serial }}</td>
-        <td>id: {{ post.id }}</td>
+        <td>
+          <tr *ngIf="post.id">id: {{ post.id }}</tr>
+          <tr>{{ post.serial }}</tr>
+        </td>
         <td>
           <tr>{{ post.driver.lastName }} {{ post.driver.firstName }}</tr> 
           <tr>{{ post.driver.email }}</tr>
@@ -31,7 +33,7 @@
               (click)="onEditPack(pack)">
               <i class="fa fa-pencil-square-o"></i>
             </a>
-            <a class="btn" (click)="onDelete(pack.$key)">
+            <a class="btn" (click)="onDeletePack(pack.$key)">
               <i class="fa fa-trash-o"></i>
             </a>
           </div>

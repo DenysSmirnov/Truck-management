@@ -2,6 +2,7 @@
   min-height: 500px;
   height: 100%;
   box-shadow: 0 .005em .01em 0 rgba(0,0,0,.12),0 2px 10px 0 rgba(0,0,0,.12)!important;
+  padding: 1rem;
 }
 .bg-grey {
   background-color: #ededed;
@@ -29,5 +30,14 @@
 @media (max-width: 767px) {
   .column {
     min-height: 0!important;
+  }
+}
+@media (min-width: 768px) {
+  .btn-block {
+    white-space: normal;
+    padding: .375rem .2rem;
+  }
+  .column {
+    padding: 0.5rem;
   }
 }

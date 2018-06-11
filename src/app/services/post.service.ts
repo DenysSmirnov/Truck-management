@@ -46,23 +46,32 @@ export class PostService {
 
   public deleteTruck($key: string) {
     this.trucksRef.remove($key);
-    this.packList = this.db.list('packages', ref =>
-      ref.orderByChild('truck').equalTo($key));
-    if (this.packList != null) {
-      this.packList.snapshotChanges().subscribe(item => {
-        item.forEach(element => {
-          const y = element.payload.toJSON();
-          console.log(y);
-          y['truck'] = 'Unassigned';
-        });
-      });
-    }
+
+    // movePackage()
+
+    // if (this.packList != null) {
+    //   this.packList.snapshotChanges().subscribe(item => {
+    //     item.forEach(element => {
+    //       const y = element.payload.toJSON();
+    //       console.log(y);
+    //       y['truck'] = 'Unassigned';
+
+    //       this.packList.push(y as Package);
+    //     });
+    //   });
+    // }
   }
 
   public getPackages(date: string) {
     this.packList = this.db.list('packages', ref =>
       ref.orderByChild('date').equalTo(date));
     return this.packList;
+  }
+
+  public getAssignedPackages(key: string) {
+    this.packList = this.db.list('packages', ref =>
+    ref.orderByChild('truck').equalTo(key));
+  return this.packList;
   }
 
   public getUnassignedPackages() {
@@ -103,6 +112,10 @@ export class PostService {
 
   public deletePackage($key: string) {
     this.packList.remove($key);
+  }
+
+  public movePackageToNotAssigned(obj: any) {
+    this.packList.update(obj.$key, { truck: obj.truck });
   }
 }
 

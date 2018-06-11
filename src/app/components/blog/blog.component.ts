@@ -51,12 +51,12 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedDatePackages();
-    this.selectedDateTrucks();
-    this.unassignedPackages();
+    this._selectedDatePackages();
+    this._selectedDateTrucks();
+    this._unassignedPackages();
   }
 
-  private selectedDatePackages(date?: string) {
+  private _selectedDatePackages(date?: string) {
     let x: any;
     if (date) {
       x = this.postService.getPackages(date);
@@ -76,7 +76,7 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  private selectedDateTrucks(date?: string) {
+  private _selectedDateTrucks() { // date?: string
     const x = this.postService.getData();
     x.snapshotChanges().subscribe(item => {
       this.postList = [];
@@ -108,7 +108,7 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  private unassignedPackages() {
+  private _unassignedPackages() {
     const x = this.postService.getUnassignedPackages();
     x.snapshotChanges().subscribe(item => {
       this.unPackageList = [];
@@ -130,6 +130,18 @@ export class BlogComponent implements OnInit {
     if (confirm('Are you sure to delete this record ?') === true) {
       this.postService.deleteTruck(key);
       this.tostr.warning('Deleted Successfully', 'Truck Deleted');
+
+      const x = this.postService.getAssignedPackages(key);
+      if (x != null) {
+        x.snapshotChanges().subscribe(item => {
+          item.forEach(element => {
+            const y = element.payload.toJSON();
+            y['$key'] = element.key;
+            y['truck'] = 'Unassigned';
+            this.postService.movePackageToNotAssigned(y);
+          });
+        });
+      }
     }
   }
 
@@ -146,7 +158,7 @@ export class BlogComponent implements OnInit {
   }
 
   onChangeDate(date: string) {
-    this.selectedDatePackages(date);
+    this._selectedDatePackages(date);
   }
 
 }
