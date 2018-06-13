@@ -1,13 +1,12 @@
 <table class="table table-sm border">
-  <div class="bg-white p-2 mb-last-0 shadow" *ngFor="let pack of packageList">
-    <tr *ngFor="let post of postList">
-      <div class="bg-grey d-flex justify-content-between align-items-center"
-        *ngIf="pack.truck === post.$key">
+  <div class="bg-white p-2 mb-last-0 shadow" *ngFor="let post of postList">
+    <tr>
+      <div class="bg-grey d-flex justify-content-between align-items-center">
         <td>
           <tr *ngIf="post.id">id: {{ post.id }}</tr>
           <tr>{{ post.serial }}</tr>
         </td>
-        <td>
+        <td class="td-contact">
           <tr>{{ post.driver.lastName }} {{ post.driver.firstName }}</tr> 
           <tr>{{ post.driver.email }}</tr>
           <tr>{{ post.driver.phone }}</tr>
@@ -24,9 +23,9 @@
       </div>
     </tr>
 
-    <div class="d-flex flex-row flex-wrap" [dragula]='"bag-one"'>
-      <mat-card class="_package"> 
-          <!-- *ngFor="let pack of packageList" -->
+    <div class="d-flex flex-row justify-content-start flex-wrap min-h"
+      [dragula]='"bag-one"' [dragulaModel] = 'post.packages'>
+      <mat-card class="_package" *ngFor="let pack of post.packages">
         <mat-card-header>
           <div class="buttons">
             <a class="btn" data-toggle="modal" data-target="#newPackModal"
@@ -48,35 +47,3 @@
     </div>
   </div>
 </table>
-
-
-<!-- <table class="table table-hover border">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table> -->

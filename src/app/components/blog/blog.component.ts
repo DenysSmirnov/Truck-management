@@ -22,7 +22,6 @@ export class BlogComponent implements OnInit {
   // options: any = {
   //   removeOnSpill: true
   // };
-  // routes: Truck[] = [];
 
   constructor(
     private postService: PostService,
@@ -31,7 +30,7 @@ export class BlogComponent implements OnInit {
     private tostr: ToastrService
   ) {
       // dragulaService.setOptions('bag-one', {drag: true});
-      dragulaService.drop.subscribe((value) => {
+      this.dragulaService.drop.subscribe((value) => {
         console.log(`drop: ${value[0]}`);
         this.onDrop(value.slice(1));
       });
@@ -52,7 +51,6 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     this._selectedDatePackages();
-    this._selectedDateTrucks();
     this._unassignedPackages();
   }
 
@@ -72,39 +70,25 @@ export class BlogComponent implements OnInit {
         this.packageList.push(y as Package);
       });
       this.packageList = this.packageList.filter(pack => pack['truck'] !== 'Unassigned');
-      // console.log(this.packageList);
+      // console.log('PackL: ', this.packageList);
+      this._selectedDateTrucks();
     });
   }
 
-  private _selectedDateTrucks() { // date?: string
+  private _selectedDateTrucks() {
     const x = this.postService.getData();
     x.snapshotChanges().subscribe(item => {
       this.postList = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
         y['$key'] = element.key;
-
-        // this.packageList.filter(pack => pack['truck'] === element.key);
-        // console.log('!!', this.packageList);
-
-        this.postList.push(y as Truck);
-        // console.log(element.key);
+        const z = this.packageList.filter(pack => pack['truck'] === element.key);
+        if (z.length) {
+          y['packages'] = z;
+          this.postList.push(y as Truck);
+        }
       });
-      // for (let post of this.postList) {
-      //   for (let pack of this.packageList) {
-      //     if (pack.truck === post.$key) {
-      //       if (post['packages'] && post['packages'].includes(pack.$key) === -1) {
-      //         post['packages'].push(pack.$key);
-      //       } else {
-      //         post['packages'] = [pack.$key];
-      //       }
-      //       this.routes.push(post);
-      //     }
-      //   }
-      // }
-      // console.log(this.routes);
-      console.log(this.postList);
-
+      // console.log('TruckL', this.postList);
     });
   }
 
@@ -147,6 +131,7 @@ export class BlogComponent implements OnInit {
 
   onChangedPackage(pack: Package) {
     this.showPackage = true;
+    pack.date = new Date(pack.date);
     this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
   }
 
@@ -161,4 +146,22 @@ export class BlogComponent implements OnInit {
     this._selectedDatePackages(date);
   }
 
+  onTruckFilter(value: string) {
+    // console.log(value);
+    const temp = this.postList;
+    // const temp = Object.assign({}, this.postList);
+    // console.log(temp);
+    if (value.length) {
+      this.postList = temp.filter(truck => truck['id'].toString() === value);
+      // console.log(this.postList);
+      return this.postList;
+    }
+    // this.postList = temp;
+    // console.log(this.postList);
+    return temp;
+  }
+
+  onPackageFilter(value: string) {
+    console.log(value);
+  }
 }

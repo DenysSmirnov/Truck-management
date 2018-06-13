@@ -46,20 +46,6 @@ export class PostService {
 
   public deleteTruck($key: string) {
     this.trucksRef.remove($key);
-
-    // movePackage()
-
-    // if (this.packList != null) {
-    //   this.packList.snapshotChanges().subscribe(item => {
-    //     item.forEach(element => {
-    //       const y = element.payload.toJSON();
-    //       console.log(y);
-    //       y['truck'] = 'Unassigned';
-
-    //       this.packList.push(y as Package);
-    //     });
-    //   });
-    // }
   }
 
   public getPackages(date: string) {

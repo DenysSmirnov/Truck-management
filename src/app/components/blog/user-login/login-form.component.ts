@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-// import { Injectable } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
-// import { Observable } from 'rxjs';
+// import { AngularFireAuth } from 'angularfire2/auth';
+// import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 // import { NgForm } from '@angular/forms';
 

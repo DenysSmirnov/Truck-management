@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Truck } from '../../../models/post';
 
 @Component({
@@ -20,13 +19,10 @@ export class NewPackageComponent implements OnInit {
     x.snapshotChanges().subscribe(item => {
       this.postList = [];
       item.forEach(element => {
-        // console.log(element);
         const y = element.payload.toJSON();
-        // console.log(y);
         y['$key'] = element.key;
         this.postList.push(y as Truck);
       });
-      console.log(this.postList);
     });
   }
 
@@ -40,6 +36,7 @@ export class NewPackageComponent implements OnInit {
     }
     this.resetForm(packageForm);
   }
+
   resetForm(packageForm?: NgForm) {
     if (packageForm != null) {
       packageForm.reset();
