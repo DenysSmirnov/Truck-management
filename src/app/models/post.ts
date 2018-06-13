@@ -1,11 +1,3 @@
-// function* generateId() {
-//   let index = 1;
-//   while (true) {
-//     yield index++;
-//   }
-// }
-
-// const generator = generateId();
 
 export class Truck {
   $key: string;
@@ -15,10 +7,6 @@ export class Truck {
   firstName: string;
   lastName: string;
   phone: number;
-
-  // constructor() {
-  //   this.id = generator.next().value;
-  // }
 }
 
 export class Package {
@@ -26,7 +14,7 @@ export class Package {
   id: number;
   serial: string;
   description: string;
-  date: string;
+  date: any;
   firstName: string;
   lastName: string;
   truck: string;

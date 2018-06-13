@@ -8,6 +8,8 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class HeaderComponent implements OnInit {
   @Output() changedDate = new EventEmitter<any>();
+  @Output() truckFilter = new EventEmitter<any>();
+  @Output() packageFilter = new EventEmitter<any>();
 
   constructor() {}
 
@@ -16,5 +18,14 @@ export class HeaderComponent implements OnInit {
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.changedDate.emit(event.value.toLocaleDateString('en-US'));
   }
-
+  onTruckFilter(value: string) {
+    // if (value.length) {
+      this.truckFilter.emit(value);
+    // }
+  }
+  onPackageFilter(value: string) {
+    if (value.length) {
+      this.packageFilter.emit(value);
+    }
+  }
 }

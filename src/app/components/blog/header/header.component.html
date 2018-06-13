@@ -4,10 +4,12 @@
   <div class="d-flex w-100 justify-content-around align-items-center">
     <div class="d-flex">
       <div class="box-search-container mr-3">
-        <input aria-label="search1" placeholder="Search truck" type="search">
+        <input aria-label="search1" placeholder="Search truck" type="search"
+          (blur)="onTruckFilter($event.target.value)">
       </div>
       <div class="box-search-container">
-        <input aria-label="search2" placeholder="Search package" type="search">
+        <input aria-label="search2" placeholder="Search package" type="search"
+          (blur)="onPackageFilter($event.target.value)">
       </div>
     </div>
 
