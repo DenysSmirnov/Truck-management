@@ -8,28 +8,17 @@
   background-color: #ededed;
   padding: 0.5rem;
 }
-// input.search {
-//   max-width: 145px;
-// }
 #message-text {
   height: 150px;
 }
-._package {
-  margin: 20px;
-  padding: 20px;
-  background-color: #f62;
-  border-radius: 5px;
-  cursor: -webkit-grab;
+.padding {
+  padding: 0;
+  height: -webkit-fill-available;
 }
 
 @media (min-width: 576px) {
   .form-control {
     width: 100%;
-  }
-}
-@media (max-width: 767px) {
-  .column {
-    min-height: 0!important;
   }
 }
 @media (min-width: 768px) {
@@ -39,5 +28,20 @@
   }
   .column {
     padding: 0.5rem;
+  }
+}
+@media (min-width: 850px) {
+  .column {
+    padding: 1rem;
+  }
+}  
+@media (min-width: 991px) {
+  .padding {
+    padding: 0 0.5rem;
+  }
+}
+@media (max-width: 767px) {
+  .column {
+    min-height: 0!important;
   }
 }

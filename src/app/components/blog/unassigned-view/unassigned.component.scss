@@ -7,3 +7,18 @@ div.buttons {
     padding-left: 0.5rem;
   }
 }
+.mat-card {
+  padding: 18px;
+}
+.mat-card-header-text {
+  margin: 5px 0 0 0!important;
+}
+.mat-card-subtitle {
+  margin-bottom: 5px;
+}
+@media (max-width: 991px) {
+  ._package {
+    margin: 7px 0 0 0;
+    padding: 25px 10px 5px 10px!important;
+  }
+}
