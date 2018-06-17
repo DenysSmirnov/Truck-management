@@ -19,13 +19,9 @@ export class HeaderComponent implements OnInit {
     this.changedDate.emit(event.value.toLocaleDateString('en-US'));
   }
   onTruckFilter(value: string) {
-    // if (value.length) {
       this.truckFilter.emit(value);
-    // }
   }
   onPackageFilter(value: string) {
-    if (value.length) {
       this.packageFilter.emit(value);
-    }
   }
 }

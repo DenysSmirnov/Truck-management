@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
@@ -9,26 +9,29 @@ import { ToastrService} from 'ngx-toastr';
   styleUrls: ['./new-driver.component.scss']
 })
 export class NewDriverComponent implements OnInit {
+  @Input() isEdit: Boolean;
+  @Output() editDone = new EventEmitter<boolean>();
 
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
   ngOnInit() {
     this.postService.getData();
-    this.resetForm();
   }
 
   onSubmit(driverForm: NgForm) {
     if (driverForm.value.$key == null) {
       this.postService.insertTruck(driverForm.value);
       this.resetForm(driverForm);
-      this.tostr.success('Submitted Successfully', 'Package Register');
+      this.tostr.success('Submitted Successfully', 'Driver registered');
     } else {
       this.postService.updateTruck(driverForm.value);
       this.resetForm(driverForm);
-      this.tostr.success('Submitted Successfully', 'Package Update');
+      this.tostr.success('Submitted Successfully', 'Driver updated');
     }
   }
   resetForm(driverForm?: NgForm) {
+    this.onEdit(false);
+
     if (driverForm != null) {
       driverForm.reset();
     }
@@ -41,6 +44,10 @@ export class NewDriverComponent implements OnInit {
       lastName: '',
       phone: null
     };
+  }
+
+  onEdit(bool: boolean) {
+    this.editDone.emit(bool);
   }
 
 }

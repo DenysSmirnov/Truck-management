@@ -1,5 +1,6 @@
 <table class="table table-sm border">
-  <div class="bg-white p-2 mb-last-0 shadow" *ngFor="let post of postList">
+  <div class="bg-white p-2 mb-last-0 shadow"
+    *ngFor="let post of sortedPostList ? sortedPostList : postList">
     <tr>
       <div class="bg-grey d-flex justify-content-between align-items-center">
         <td>
@@ -39,7 +40,7 @@
           <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          {{ pack.date }}<br>
+          {{ pack.date | date}}<br>
           {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
           {{ pack.description }}
         </mat-card-content>

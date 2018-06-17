@@ -3,7 +3,8 @@
     <div class="modal-content">
   
         <div class="modal-header">
-          <h5 class="modal-title" id="newModalLabel2">New package</h5>
+          <h5 *ngIf="isEdit" class="modal-title" id="newModalLabel2">Edit package</h5>
+          <h5 *ngIf="!isEdit" class="modal-title" id="newModalLabel2">New package</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -36,7 +37,7 @@
 
               <mat-form-field>
                 <input matInput [matDatepicker]="picker" class="form-control" name="date"
-                [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date" required>
+                  [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
@@ -52,15 +53,14 @@
 
               <mat-form-field>
                 <textarea matInput class="form-control" name="description" #description="ngModel"
-                  [(ngModel)]="postService.selectedPackage.description" placeholder="Description">
+                  [(ngModel)]="postService.selectedPackage.description" placeholder="Description" required>
                 </textarea>
               </mat-form-field>
 
             </div>
           </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-            (click)="resetForm(packageForm)">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-outline-secondary" (click)="resetForm(packageForm)">
             <i class="fa fa-repeat"></i>
             Reset</button>

@@ -1,4 +1,5 @@
-<mat-card class="_package" *ngFor="let pack of packageList">
+<mat-card class="_package" *ngFor="let pack of sortedPackList ? sortedPackList : packageList">
+<!-- *ngFor="let pack of packageList" -->
   <mat-card-header>
     <div class="buttons">
       <a class="btn" data-toggle="modal" data-target="#newPackModal"
@@ -12,7 +13,7 @@
     <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    {{ pack.date }}<br>
+    {{ pack.date | date}}<br>
     {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
     {{ pack.description }}
   </mat-card-content>

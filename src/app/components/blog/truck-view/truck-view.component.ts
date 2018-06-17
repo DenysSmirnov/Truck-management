@@ -8,6 +8,7 @@ import { Truck, Package } from '../../../models/post';
 })
 export class TruckViewComponent implements OnInit {
   @Input() postList: Truck[];
+  @Input() sortedPostList: any[];
   @Input() packageList: Package[];
   @Output() changed = new EventEmitter<Truck>();
   @Output() deleted = new EventEmitter<string>();

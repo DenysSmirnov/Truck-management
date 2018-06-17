@@ -9,12 +9,12 @@
         (click)="authService.logout()">Logout</a>
 
       <div role="separator" class="dropdown-divider"></div>
-      <app-new-package *ngIf="showPackage"></app-new-package>
+      <app-new-package *ngIf="showPackage" [isEdit]="isEdit" (editDone)="showPackageModal()"></app-new-package>
       <button type="button" class="btn btn-outline-success my-sm-3 btn-block" 
         data-toggle="modal" data-target="#newPackModal"
         (click)="showPackageModal()">New package</button>
 
-      <app-new-driver *ngIf="showDriver"></app-new-driver>
+      <app-new-driver *ngIf="showDriver" [isEdit]="isEdit" (editDone)="showDriverModal()"></app-new-driver>
       <button type="button" class="btn btn-outline-warning my-sm-3 btn-block" 
         data-toggle="modal" data-target="#newDriverModal"
         (click)="showDriverModal()">New driver</button>
@@ -25,6 +25,7 @@
       <h5>Trucks</h5>
       <div class="bg-grey">
         <app-truck-view [postList]="postList" [packageList]="packageList"
+          [sortedPostList]="sortedPostList"
           (changed)="onChangedTruck($event)" (deleted)="onDeletedTruck($event)"
           (changedPackage)="onChangedPackage($event)" (deletedPackage)="onDeletedPackage($event)">
         </app-truck-view>
@@ -36,8 +37,12 @@
       <h5 class="mt-2">Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
       <div class="padding">
-        <app-unassigned class="h-100" [packageList]="unPackageList" [dragula]='"bag-one"' [dragulaModel]='packageList'
-          (unChangedPack)="onChangedPackage($event)" (unDeletedPack)="onDeletedPackage($event)"></app-unassigned>
+        <app-unassigned class="h-100" [packageList]="unPackageList"
+          [sortedPackList]="sortedPackList"
+          [dragula]='"bag-one"' [dragulaModel]='packageList'
+          (unChangedPack)="onChangedPackage($event)"
+          (unDeletedPack)="onDeletedPackage($event)">
+        </app-unassigned>
       </div>
     </div>
   </div>

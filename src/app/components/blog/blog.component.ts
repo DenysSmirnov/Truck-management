@@ -4,7 +4,7 @@ import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
-// import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-blog',
@@ -19,6 +19,9 @@ export class BlogComponent implements OnInit {
   unPackageList: Package[];
   showDriver = false;
   showPackage = false;
+  isEdit = false;
+  sortedPostList: any[];
+  sortedPackList: any[];
   // options: any = {
   //   removeOnSpill: true
   // };
@@ -36,17 +39,47 @@ export class BlogComponent implements OnInit {
       });
     }
 
-  private onDrop(args) {
+  private onDrop(args) { // , pack: Package
     const [e, el] = args;
     // do something
     console.log(e, el);
+    // this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
   }
 
   showDriverModal() {
+    if (this.postService.selectedPost != null) {
+      this.postService.selectedPost = {
+        $key: null,
+        id: null,
+        serial: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        phone: null
+      };
+    }
     this.showDriver = true;
+    if (this.isEdit) {
+      this.isEdit = false;
+    }
   }
   showPackageModal() {
+    if (this.postService.selectedPackage != null) {
+      this.postService.selectedPackage = {
+        $key: null,
+        id: null,
+        serial: '',
+        description: '',
+        firstName: '',
+        lastName: '',
+        date: null,
+        truck: null
+      };
+    }
     this.showPackage = true;
+    if (this.isEdit) {
+      this.isEdit = false;
+    }
   }
 
   ngOnInit() {
@@ -69,7 +102,7 @@ export class BlogComponent implements OnInit {
         y['$key'] = element.key;
         this.packageList.push(y as Package);
       });
-      this.packageList = this.packageList.filter(pack => pack['truck'] !== 'Unassigned');
+      this.packageList = this.packageList.filter(pack => pack.truck !== 'Unassigned');
       // console.log('PackL: ', this.packageList);
       this._selectedDateTrucks();
     });
@@ -78,15 +111,16 @@ export class BlogComponent implements OnInit {
   private _selectedDateTrucks() {
     const x = this.postService.getData();
     x.snapshotChanges().subscribe(item => {
-      this.postList = [];
+      const temp = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
         y['$key'] = element.key;
-        const z = this.packageList.filter(pack => pack['truck'] === element.key);
-        if (z.length) {
+        const z = this.packageList.filter(pack => pack.truck === element.key);
+        // if (z.length) { // only drivers with packages
           y['packages'] = z;
-          this.postList.push(y as Truck);
-        }
+          temp.push(y as Truck);
+          this.postList = temp.sort((a, b) => b['packages'].length);
+        // }
       });
       // console.log('TruckL', this.postList);
     });
@@ -95,18 +129,21 @@ export class BlogComponent implements OnInit {
   private _unassignedPackages() {
     const x = this.postService.getUnassignedPackages();
     x.snapshotChanges().subscribe(item => {
-      this.unPackageList = [];
+      const temp = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
         y['$key'] = element.key;
-        this.unPackageList.push(y as Package);
+        temp.push(y as Package);
       });
+      this.unPackageList = temp.sort((a, b) =>
+        new Date(b.date).getDate() - new Date(a.date).getDate());
       // console.log('unPacklist: ', this.unPackageList);
     });
   }
 
   onChangedTruck(post: Truck) {
     this.showDriver = true;
+    this.isEdit = true;
     this.postService.selectedPost = Object.assign({}, post['driver'], post);
   }
 
@@ -131,6 +168,7 @@ export class BlogComponent implements OnInit {
 
   onChangedPackage(pack: Package) {
     this.showPackage = true;
+    this.isEdit = true;
     pack.date = new Date(pack.date);
     this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
   }
@@ -146,22 +184,53 @@ export class BlogComponent implements OnInit {
     this._selectedDatePackages(date);
   }
 
-  onTruckFilter(value: string) {
-    // console.log(value);
-    const temp = this.postList;
-    // const temp = Object.assign({}, this.postList);
-    // console.log(temp);
-    if (value.length) {
-      this.postList = temp.filter(truck => truck['id'].toString() === value);
-      // console.log(this.postList);
-      return this.postList;
+  onTruckFilter(query: string): Observable<Truck[]> {
+    if (query.length) {
+      this.sortedPostList = this.postList.filter(truck =>
+        new RegExp(`${query}`, 'i').test(
+          [Object.values(truck['driver']).concat(truck.id, truck.serial)].toString()
+        )
+        // truck.serial.toLowerCase().includes(query) || truck.id.toString().includes(query)
+      );
+      // console.log(this.sortedPostList);
+      return of(this.sortedPostList);
     }
-    // this.postList = temp;
-    // console.log(this.postList);
-    return temp;
+    this.sortedPostList = null;
   }
 
-  onPackageFilter(value: string) {
-    console.log(value);
+  onPackageFilter(query: string): Observable<any[]> {
+    if (query.length) {
+      console.log(this.postList);
+      const x = this.postList.filter(truck =>
+        truck['packages'].length > 0);
+        const xxx = [];
+
+      x.forEach((y, i) => {
+        xxx.push(y['packages']);
+      });
+      console.log(xxx);
+        // console.log(y['packages']);
+      this.sortedPostList = xxx.filter(el =>
+        // console.log(el);
+        // tslint:disable-next-line:no-unused-expression
+        new RegExp(`${query}`, 'i').test(
+          Object.values( Object.assign({}, el, el.recipient) ).toString()
+        )
+      );
+      console.log( Object.values( Object.assign({}, xxx) ) );
+
+
+      this.sortedPackList = this.unPackageList.filter(y =>
+        new RegExp(`${query}`, 'i').test(
+          [Object.values(y['recipient']).concat(y.serial, y.date, y.description)].toString()
+        )
+      );
+
+      // console.log(this.sortedPostList);
+      // return of(this.sortedPostList);
+      return of(this.sortedPackList);
+    }
+    this.sortedPostList = null;
+    this.sortedPackList = null;
   }
 }

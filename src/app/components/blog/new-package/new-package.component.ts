@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { Truck } from '../../../models/post';
 })
 export class NewPackageComponent implements OnInit {
   postList: Truck[];
+  @Input() isEdit: Boolean;
+  @Output() editDone = new EventEmitter<boolean>();
 
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
@@ -38,6 +40,8 @@ export class NewPackageComponent implements OnInit {
   }
 
   resetForm(packageForm?: NgForm) {
+    this.onEdit(false);
+
     if (packageForm != null) {
       packageForm.reset();
     }
@@ -53,4 +57,7 @@ export class NewPackageComponent implements OnInit {
     };
   }
 
+  onEdit(bool: boolean) {
+    this.editDone.emit(bool);
+  }
 }
