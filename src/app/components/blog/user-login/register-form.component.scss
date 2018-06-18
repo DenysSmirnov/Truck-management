@@ -1,0 +1,35 @@
+.reg-container {
+  display: flex;
+  flex-direction: column;
+}
+.reg-container > * {
+  width: 100%;
+}
+.register-card {
+  width: 30%;
+  margin: auto;
+  margin-top: 10%;
+}
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+#goback {
+  margin-bottom: 20px;
+  a {
+    font-size: 60%;
+    text-transform: uppercase;
+  }
+}
+.mat-form-field {
+  display: block;
+  input {
+    box-shadow: none;
+  }
+}
+.mat-card-content {
+  span {
+    color: blue;
+  }
+}

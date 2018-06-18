@@ -1,35 +1,49 @@
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <!-- Register form -->
-          <form (ngSubmit)="onSubmit()">
-            <p class="h5 text-center mb-4">Register</p>
-          
-            <div class="form-group">
-              <i class="fa fa-envelope prefix grey-text"></i>
-              <label for="email">Your email</label>
-              <input type="email" name="email" class="form-control" ngModel>
-            </div>
-          
-            <div class="form-group">
-              <i class="fa fa-lock prefix grey-text"></i>
-              <label for="password">Your password</label>
-              <input type="password" name="password" class="form-control" ngModel>
-            </div>
+<mat-card class="register-card">
+  <div id="goback"><a routerLink="/login">Go back</a></div>
+  <mat-card-header>
+    <p class="h5 mb-4">Join now</p>
+  </mat-card-header>
+  <form [formGroup]="regForm" novalidate (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div class="reg-container">
 
-            <div class="form-group">
-              <i class="fa fa-lock prefix grey-text"></i>
-              <label for="password">Confirm password</label>
-              <input type="password" name="confirmPassword" class="form-control" ngModel>
-            </div>
-          
-            <div class="text-center">
-              <input type="submit" class="btn btn-default waves-light" value="Register">
-            </div>
-          </form>
-        <!-- Register form -->
+        <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Your email" class="form-control" name="email" formControlName="email" autocomplete="off">
+          <mat-error *ngIf="regForm.controls['email'].invalid">{{ getErrorMessage() }}</mat-error>
+        </mat-form-field>
+        </div>
+
+        <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Your password" [type]="hide ? 'password' : 'text'"
+            class="form-control" name="pass" formControlName="pass">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="regForm.controls['pass'].invalid">{{ getPassErrorMessage() }}</mat-error>
+        </mat-form-field>
+        </div>
+
+        <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'"
+            class="form-control" name="confirmPass" formControlName="confirmPass">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="regForm.controls['confirmPass'].invalid">{{ getConfirmPassErrorMessage() }}</mat-error>
+        </mat-form-field>
+        </div>
+      </div>
+
+      <span *ngIf="success">{{ success }}</span>
+      <mat-error *ngIf="error">{{ error }}</mat-error>
+
+    </mat-card-content>
+    <div class="button-row">
+      <div class="form-group">
+      <mat-card-actions>
+        <button mat-raised-button class="w-100" type="submit" color="primary"
+        [disabled]="regForm.controls['email'].invalid || regForm.controls['pass'].invalid || regForm.controls['confirmPass'].invalid">Create account</button>
+      </mat-card-actions>
       </div>
     </div>
-  </div>
-</div>
+  </form>
+</mat-card>

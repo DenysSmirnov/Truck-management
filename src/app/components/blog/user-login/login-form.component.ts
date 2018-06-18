@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-// import { AngularFireAuth } from 'angularfire2/auth';
-// import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
-// import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +10,7 @@ import { Router } from '@angular/router';
 })
 
 export class LoginFormComponent implements OnInit {
-  // hide = true;
+  hide = true;
   error: any;
   user = {
     email : new FormControl('', [Validators.required, Validators.email]),
@@ -24,7 +21,7 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {}
 
-  // onSubmit(loginForm: NgForm) {
+  // onSubmit() {
   // }
 
   getErrorMessage() {

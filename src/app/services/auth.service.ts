@@ -38,8 +38,11 @@ export class AuthService {
     localStorage.removeItem('currentUser');
   }
 
+  doRegister(email, password) {
+    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
   signInRegular(email, password) {
-    const credential = firebase.auth.EmailAuthProvider.credential( email, password );
+    // const credential = firebase.auth.EmailAuthProvider.credential(email, password);
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
   signInWithGithub() {

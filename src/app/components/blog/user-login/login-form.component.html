@@ -4,18 +4,17 @@
   </mat-card-header>
   <mat-card-content>
     <form>
-        <!-- #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" -->
+        <!-- [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()" -->
       <div class="login-container">
         <mat-form-field>
           <input matInput placeholder="Your email" [type]="email" [formControl]="user.email" autocomplete="off" required>
-          <!-- <input matInput [type]="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" required> -->
           <mat-error *ngIf="user.email.invalid">{{ getErrorMessage() }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <input matInput placeholder="Your password" [type]="hide ? 'password' : 'text'"
                 [formControl]="user.pass" required>
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           <mat-error *ngIf="user.pass.invalid">{{ getPassErrorMessage() }}</mat-error>
         </mat-form-field>
       </div>
@@ -34,16 +33,15 @@
       <button type="button" class="btn btn-block mt-1" (click)="signInWithGoogle()">
         <i class="fa fa-google" aria-hidden="true"></i> Login with Google
       </button>
-      <button mat-button color="primary" type="submit">Forgot password?</button>
+      <button mat-button color="primary" type="button" [style.display]="'block'">Forgot password?</button>
+      <button mat-button color="primary" type="button" [style.display]="'block'"
+        routerLink="/register">No account? Create one here</button>
     </mat-card-actions>
   </div>
 </mat-card>
 
 
-<!-- 
- <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
-                   
- <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-               
+
+<!--           
 <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> 
 -->
