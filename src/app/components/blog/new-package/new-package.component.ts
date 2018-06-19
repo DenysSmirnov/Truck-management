@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
@@ -13,6 +13,7 @@ export class NewPackageComponent implements OnInit {
   postList: Truck[];
   @Input() isEdit: Boolean;
   @Output() editDone = new EventEmitter<boolean>();
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
@@ -37,6 +38,7 @@ export class NewPackageComponent implements OnInit {
       this.tostr.success('Submitted Successfully', 'Package Updated');
     }
     this.resetForm(packageForm);
+    this.closeBtn.nativeElement.click();
   }
 
   resetForm(packageForm?: NgForm) {

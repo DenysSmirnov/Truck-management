@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
@@ -11,6 +11,7 @@ import { ToastrService} from 'ngx-toastr';
 export class NewDriverComponent implements OnInit {
   @Input() isEdit: Boolean;
   @Output() editDone = new EventEmitter<boolean>();
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
@@ -21,13 +22,13 @@ export class NewDriverComponent implements OnInit {
   onSubmit(driverForm: NgForm) {
     if (driverForm.value.$key == null) {
       this.postService.insertTruck(driverForm.value);
-      this.resetForm(driverForm);
       this.tostr.success('Submitted Successfully', 'Driver registered');
     } else {
       this.postService.updateTruck(driverForm.value);
-      this.resetForm(driverForm);
       this.tostr.success('Submitted Successfully', 'Driver updated');
     }
+    this.resetForm(driverForm);
+    this.closeBtn.nativeElement.click();
   }
   resetForm(driverForm?: NgForm) {
     this.onEdit(false);
@@ -49,5 +50,4 @@ export class NewDriverComponent implements OnInit {
   onEdit(bool: boolean) {
     this.editDone.emit(bool);
   }
-
 }

@@ -24,9 +24,10 @@
       </div>
     </tr>
 
-    <div class="d-flex flex-row justify-content-start flex-wrap min-h"
+    <div #truckKey [id]='post.$key' class="d-flex flex-row justify-content-start flex-wrap min-h"
       [dragula]='"bag-one"' [dragulaModel] = 'post.packages'>
-      <mat-card class="_package" *ngFor="let pack of post.packages">
+      <!-- <input type="hidden"  name="$key" [value]="post.$key"> -->
+      <mat-card [id]='pack.$key' class="_package" *ngFor="let pack of post.packages">
         <mat-card-header>
           <div class="buttons">
             <a class="btn" data-toggle="modal" data-target="#newPackModal"

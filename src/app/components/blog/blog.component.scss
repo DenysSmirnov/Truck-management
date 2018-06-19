@@ -13,9 +13,8 @@
 }
 .padding {
   padding: 0;
-  height: -webkit-fill-available;
+  // height: -webkit-fill-available;
 }
-
 @media (min-width: 576px) {
   .form-control {
     width: 100%;
@@ -28,6 +27,19 @@
   }
   .column {
     padding: 0.5rem;
+  }
+  .padding-right {
+    padding-right: 0.5rem;
+  }
+  .padding-leftright {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+  .padding-left {
+    padding-left: 0.5rem;
+  }
+  .row {
+    margin-top: 1rem;
   }
 }
 @media (min-width: 850px) {

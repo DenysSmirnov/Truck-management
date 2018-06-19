@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Observable, of } from 'rxjs';
+import { MatCardSubtitle } from '@angular/material';
 
 @Component({
   selector: 'app-blog',
@@ -34,16 +35,19 @@ export class BlogComponent implements OnInit {
   ) {
       // dragulaService.setOptions('bag-one', {drag: true});
       this.dragulaService.drop.subscribe((value) => {
-        console.log(`drop: ${value[0]}`);
+        // console.log(`drop: ${value[0]}`);
         this.onDrop(value.slice(1));
+        // console.log(this);
       });
     }
 
-  private onDrop(args) { // , pack: Package
-    const [e, el] = args;
-    // do something
-    console.log(e, el);
-    // this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
+  private onDrop(args) {
+    const [el, target, source, sibling] = args;
+    // console.log(el, target, source, sibling);
+    if (!target.id) {
+      target.id = 'Unassigned';
+    }
+    this.postService.dragAndDropPackage(el.id, target.id);
   }
 
   showDriverModal() {
@@ -190,7 +194,6 @@ export class BlogComponent implements OnInit {
         new RegExp(`${query}`, 'i').test(
           [Object.values(truck['driver']).concat(truck.id, truck.serial)].toString()
         )
-        // truck.serial.toLowerCase().includes(query) || truck.id.toString().includes(query)
       );
       // console.log(this.sortedPostList);
       return of(this.sortedPostList);

@@ -1,4 +1,4 @@
-<mat-card class="_package" *ngFor="let pack of sortedPackList ? sortedPackList : packageList">
+<mat-card [id]='pack.$key' class="_package" *ngFor="let pack of sortedPackList ? sortedPackList : packageList">
 <!-- *ngFor="let pack of packageList" -->
   <mat-card-header>
     <div class="buttons">

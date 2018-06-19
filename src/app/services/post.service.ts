@@ -103,6 +103,10 @@ export class PostService {
   public movePackageToNotAssigned(obj: any) {
     this.packList.update(obj.$key, { truck: obj.truck });
   }
+
+  public dragAndDropPackage(packId: string, truckId: string) {
+    this.packList.update(packId, { truck: truckId });
+  }
 }
 
 

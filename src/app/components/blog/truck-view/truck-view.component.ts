@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Truck, Package } from '../../../models/post';
 
 @Component({
@@ -6,7 +6,7 @@ import { Truck, Package } from '../../../models/post';
   templateUrl: './truck-view.component.html',
   styleUrls: ['./truck-view.component.scss']
 })
-export class TruckViewComponent implements OnInit {
+export class TruckViewComponent implements OnInit, AfterViewInit {
   @Input() postList: Truck[];
   @Input() sortedPostList: any[];
   @Input() packageList: Package[];
@@ -14,10 +14,15 @@ export class TruckViewComponent implements OnInit {
   @Output() deleted = new EventEmitter<string>();
   @Output() changedPackage = new EventEmitter<Package>();
   @Output() deletedPackage = new EventEmitter<string>();
+  @ViewChild('truckKey') truckKey: ElementRef;
 
   constructor() {}
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    // console.log(this.truckKey);
+  }
 
   onEdit(post: Truck) {
     this.changed.emit(post);

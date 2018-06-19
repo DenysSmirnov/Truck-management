@@ -1,8 +1,8 @@
 <app-header (changedDate)="onChangeDate($event)"
   (truckFilter)="onTruckFilter($event)" (packageFilter)="onPackageFilter($event)">
 </app-header>
-<div class="row mt-3 mb-4">
-  <div class="col-md-2 pr-2">
+<div class="row mb-4">
+  <div class="col-md-2 padding-right">
     <div class="bg-white column">
 
       <a *ngIf="this.authService.isLoggedIn()" class="btn btn-outline-secondary my-sm-3 btn-block"
@@ -20,7 +20,7 @@
         (click)="showDriverModal()">New driver</button>
     </div>
   </div>
-  <div class="col-md-7 pr-2 pl-2">
+  <div class="col-md-7 padding-leftright">
     <div class="bg-white column">
       <h5>Trucks</h5>
       <div class="bg-grey">
@@ -32,9 +32,9 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3 pl-2">
+  <div class="col-md-3 padding-left">
     <div class="bg-white column">
-      <h5 class="mt-2">Unassigned</h5>
+      <h5>Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
       <div class="padding">
         <app-unassigned class="h-100" [packageList]="unPackageList"
