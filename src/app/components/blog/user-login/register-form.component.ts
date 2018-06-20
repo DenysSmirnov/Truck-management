@@ -18,7 +18,7 @@ export class RegisterFormComponent implements OnInit {
     this.regForm = new FormGroup({
       'email': new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z-_0-9]+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}')
+        Validators.pattern('[a-zA-Z-_0-9]+@[a-zA-Z_]+?\\..+')
       ]),
       'pass': new FormControl('', [Validators.required, Validators.minLength(6)]),
       'confirmPass': new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -43,7 +43,6 @@ export class RegisterFormComponent implements OnInit {
       this.authService.doRegister(
         this.regForm.controls['email'].value, this.regForm.controls['pass'].value)
       .then(res => {
-        console.log(res);
         this.error = '';
         this.success = 'Your account has been created';
         setTimeout(() => {
@@ -51,8 +50,7 @@ export class RegisterFormComponent implements OnInit {
           this.regForm.reset();
         }, 2000);
       }, err => {
-        console.log(err);
-        this.regForm.reset();
+        // this.regForm.reset();
         this.error = err.message;
         this.success = '';
       });
@@ -60,6 +58,7 @@ export class RegisterFormComponent implements OnInit {
       this.error = 'Passwords do not match';
     }
   }
+
   ngOnInit() {
   }
 }

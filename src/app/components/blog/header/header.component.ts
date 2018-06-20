@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ export class HeaderComponent implements OnInit {
   @Output() changedDate = new EventEmitter<any>();
   @Output() truckFilter = new EventEmitter<any>();
   @Output() packageFilter = new EventEmitter<any>();
+  date = new FormControl({value: new Date(), disabled: true});
 
   constructor() {}
 
@@ -19,9 +21,9 @@ export class HeaderComponent implements OnInit {
     this.changedDate.emit(event.value.toLocaleDateString('en-US'));
   }
   onTruckFilter(value: string) {
-      this.truckFilter.emit(value);
+    this.truckFilter.emit(value);
   }
   onPackageFilter(value: string) {
-      this.packageFilter.emit(value);
+    this.packageFilter.emit(value);
   }
 }

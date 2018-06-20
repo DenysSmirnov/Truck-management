@@ -18,7 +18,7 @@ export class NewPackageComponent implements OnInit {
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
   ngOnInit() {
-    const x = this.postService.getData();
+    const x = this.postService.getTrucks();
     x.snapshotChanges().subscribe(item => {
       this.postList = [];
       item.forEach(element => {

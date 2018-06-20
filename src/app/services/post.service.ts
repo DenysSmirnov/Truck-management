@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Truck, Package } from '../models/post';
-// import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class PostService {
   trucksRef: AngularFireList<any>;
-  packList: AngularFireList<any>;
+  packagesRef: AngularFireList<any>;
   selectedPost: Truck = new Truck();
   selectedPackage: Package = new Package();
 
   constructor(private db: AngularFireDatabase) {}
 
-  public getData() {
+  public getTrucks() {
     this.trucksRef = this.db.list('trucks');
     return this.trucksRef;
   }
@@ -49,25 +48,19 @@ export class PostService {
   }
 
   public getPackages(date: string) {
-    this.packList = this.db.list('packages', ref =>
+    this.packagesRef = this.db.list('packages', ref =>
       ref.orderByChild('date').equalTo(date));
-    return this.packList;
+    return this.packagesRef;
   }
 
   public getAssignedPackages(key: string) {
-    this.packList = this.db.list('packages', ref =>
+    this.packagesRef = this.db.list('packages', ref =>
     ref.orderByChild('truck').equalTo(key));
-  return this.packList;
-  }
-
-  public getUnassignedPackages() {
-    this.packList = this.db.list('packages', ref =>
-      ref.orderByChild('truck').equalTo('Unassigned'));
-    return this.packList;
+  return this.packagesRef;
   }
 
   public insertPackage(pack: Package) {
-    this.packList.push({
+    this.packagesRef.push({
       id: pack.id,
       serial: pack.serial,
       description: pack.description,
@@ -78,11 +71,10 @@ export class PostService {
       },
       truck: pack.truck
     });
-    // console.log(pack.date);
   }
 
   public updatePackage(pack: Package) {
-    this.packList.update(pack.$key,
+    this.packagesRef.update(pack.$key,
       {
         id: pack.id,
         serial: pack.serial,
@@ -97,21 +89,15 @@ export class PostService {
   }
 
   public deletePackage($key: string) {
-    this.packList.remove($key);
+    this.packagesRef.remove($key);
   }
 
   public movePackageToNotAssigned(obj: any) {
-    this.packList.update(obj.$key, { truck: obj.truck });
+    this.packagesRef.update(obj.$key, { truck: obj.truck });
   }
 
   public dragAndDropPackage(packId: string, truckId: string) {
-    this.packList.update(packId, { truck: truckId });
+    this.packagesRef.update(packId, { truck: truckId });
   }
 }
 
-
-
-  // public getSinglePost(id: number): Observable<Post> {
-  //   const singlePost = this.trucksRef.filter(post => post.id === id).pop();
-  //   return of(singlePost);
-  // }

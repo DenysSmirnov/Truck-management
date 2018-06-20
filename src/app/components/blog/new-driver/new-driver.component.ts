@@ -16,7 +16,7 @@ export class NewDriverComponent implements OnInit {
   constructor(private postService: PostService, private tostr: ToastrService) {}
 
   ngOnInit() {
-    this.postService.getData();
+    this.postService.getTrucks();
   }
 
   onSubmit(driverForm: NgForm) {

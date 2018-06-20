@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Observable, of } from 'rxjs';
-import { MatCardSubtitle } from '@angular/material';
 
 @Component({
   selector: 'app-blog',
@@ -22,7 +21,9 @@ export class BlogComponent implements OnInit {
   showPackage = false;
   isEdit = false;
   sortedPostList: any[];
-  sortedPackList: any[];
+  // sortedPackList: any[];
+  private query1 = '';
+  private query2 = '';
   // options: any = {
   //   removeOnSpill: true
   // };
@@ -42,8 +43,8 @@ export class BlogComponent implements OnInit {
     }
 
   private onDrop(args) {
-    const [el, target, source, sibling] = args;
-    // console.log(el, target, source, sibling);
+    const [el, target, source] = args;
+    // console.log(el, target, source);
     if (!target.id) {
       target.id = 'Unassigned';
     }
@@ -88,7 +89,6 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     this._selectedDatePackages();
-    this._unassignedPackages();
   }
 
   private _selectedDatePackages(date?: string) {
@@ -100,20 +100,22 @@ export class BlogComponent implements OnInit {
       x = this.postService.getPackages(now);
     }
     x.snapshotChanges().subscribe(item => {
-      this.packageList = [];
+      // this.packageList = [];
+      const temp = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
         y['$key'] = element.key;
-        this.packageList.push(y as Package);
+        temp.push(y as Package);
       });
-      this.packageList = this.packageList.filter(pack => pack.truck !== 'Unassigned');
+      this.packageList = temp.filter(pack => pack.truck !== 'Unassigned');
+      this.unPackageList = temp.filter(pack => pack.truck === 'Unassigned');
       // console.log('PackL: ', this.packageList);
       this._selectedDateTrucks();
     });
   }
 
   private _selectedDateTrucks() {
-    const x = this.postService.getData();
+    const x = this.postService.getTrucks();
     x.snapshotChanges().subscribe(item => {
       const temp = [];
       item.forEach(element => {
@@ -127,21 +129,6 @@ export class BlogComponent implements OnInit {
         // }
       });
       // console.log('TruckL', this.postList);
-    });
-  }
-
-  private _unassignedPackages() {
-    const x = this.postService.getUnassignedPackages();
-    x.snapshotChanges().subscribe(item => {
-      const temp = [];
-      item.forEach(element => {
-        const y = element.payload.toJSON();
-        y['$key'] = element.key;
-        temp.push(y as Package);
-      });
-      this.unPackageList = temp.sort((a, b) =>
-        new Date(b.date).getDate() - new Date(a.date).getDate());
-      // console.log('unPacklist: ', this.unPackageList);
     });
   }
 
@@ -189,51 +176,54 @@ export class BlogComponent implements OnInit {
   }
 
   onTruckFilter(query: string): Observable<Truck[]> {
-    if (query.length) {
-      this.sortedPostList = this.postList.filter(truck =>
-        new RegExp(`${query}`, 'i').test(
-          [Object.values(truck['driver']).concat(truck.id, truck.serial)].toString()
-        )
-      );
-      // console.log(this.sortedPostList);
-      return of(this.sortedPostList);
-    }
-    this.sortedPostList = null;
+    this.query1 = query;
+    return of(this.getPostList);
   }
 
   onPackageFilter(query: string): Observable<any[]> {
-    if (query.length) {
-      console.log(this.postList);
-      const x = this.postList.filter(truck =>
-        truck['packages'].length > 0);
-        const xxx = [];
-
-      x.forEach((y, i) => {
-        xxx.push(y['packages']);
-      });
-      console.log(xxx);
-        // console.log(y['packages']);
-      this.sortedPostList = xxx.filter(el =>
-        // console.log(el);
-        // tslint:disable-next-line:no-unused-expression
-        new RegExp(`${query}`, 'i').test(
-          Object.values( Object.assign({}, el, el.recipient) ).toString()
-        )
-      );
-      console.log( Object.values( Object.assign({}, xxx) ) );
+    this.query2 = query;
 
 
-      this.sortedPackList = this.unPackageList.filter(y =>
-        new RegExp(`${query}`, 'i').test(
-          [Object.values(y['recipient']).concat(y.serial, y.date, y.description)].toString()
-        )
-      );
+    console.log(this.postList);
+    const x = this.postList.filter(truck =>
+      truck['packages'].length > 0);
+      const xxx = [];
 
-      // console.log(this.sortedPostList);
-      // return of(this.sortedPostList);
-      return of(this.sortedPackList);
-    }
-    this.sortedPostList = null;
-    this.sortedPackList = null;
+    x.forEach((y, i) => {
+      xxx.push(y['packages']);
+    });
+    console.log(xxx);
+      // console.log(y['packages']);
+
+    this.sortedPostList = xxx.filter(el =>
+      // console.log(el);
+      // tslint:disable-next-line:no-unused-expression
+      new RegExp(`${query}`, 'i').test(
+        Object.values( Object.assign({}, el, el.recipient) ).toString()
+      )
+    );
+    console.log( Object.values( Object.assign({}, xxx) ) );
+
+
+    // console.log(this.sortedPostList);
+    // return of(this.sortedPostList);
+    // return of(this.sortedPackList);
+    return of(this.getUnassignedList);
+  }
+
+  get getPostList() {
+    return this.query1.length ? this.postList.filter(truck =>
+      new RegExp(`${this.query1}`, 'i').test(
+        [Object.values(truck['driver']).concat(truck.id, truck.serial)].toString()
+      )
+    ) : this.postList;
+  }
+
+  get getUnassignedList() {
+    return this.query2.length ? this.unPackageList.filter(y =>
+      new RegExp(`${this.query2}`, 'i').test(
+        [Object.values(y['recipient']).concat(y.serial, y.date, y.description)].toString()
+      )
+    ) : this.unPackageList;
   }
 }

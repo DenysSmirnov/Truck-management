@@ -24,8 +24,7 @@
     <div class="bg-white column">
       <h5>Trucks</h5>
       <div class="bg-grey">
-        <app-truck-view [postList]="postList" [packageList]="packageList"
-          [sortedPostList]="sortedPostList"
+        <app-truck-view [postList]="getPostList" [packageList]="packageList"
           (changed)="onChangedTruck($event)" (deleted)="onDeletedTruck($event)"
           (changedPackage)="onChangedPackage($event)" (deletedPackage)="onDeletedPackage($event)">
         </app-truck-view>
@@ -37,9 +36,7 @@
       <h5>Unassigned</h5>
       <div role="separator" class="dropdown-divider"></div>
       <div class="padding">
-        <app-unassigned class="h-100" [packageList]="unPackageList"
-          [sortedPackList]="sortedPackList"
-          [dragula]='"bag-one"' [dragulaModel]='packageList'
+        <app-unassigned [packageList]="getUnassignedList"
           (unChangedPack)="onChangedPackage($event)"
           (unDeletedPack)="onDeletedPackage($event)">
         </app-unassigned>
