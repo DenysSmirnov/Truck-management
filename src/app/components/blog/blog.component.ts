@@ -14,19 +14,14 @@ import { Observable, of } from 'rxjs';
 })
 
 export class BlogComponent implements OnInit {
-  postList: Truck[];
-  packageList: Package[];
+  postList: Truck[] = [];
+  packageList: Package[] = [];
   unPackageList: Package[];
   showDriver = false;
   showPackage = false;
   isEdit = false;
-  sortedPostList: any[];
-  // sortedPackList: any[];
   private query1 = '';
   private query2 = '';
-  // options: any = {
-  //   removeOnSpill: true
-  // };
 
   constructor(
     private postService: PostService,
@@ -34,17 +29,13 @@ export class BlogComponent implements OnInit {
     private dragulaService: DragulaService,
     private tostr: ToastrService
   ) {
-      // dragulaService.setOptions('bag-one', {drag: true});
       this.dragulaService.drop.subscribe((value) => {
-        // console.log(`drop: ${value[0]}`);
         this.onDrop(value.slice(1));
-        // console.log(this);
       });
     }
 
   private onDrop(args) {
-    const [el, target, source] = args;
-    // console.log(el, target, source);
+    const [el, target] = args;
     if (!target.id) {
       target.id = 'Unassigned';
     }
@@ -88,19 +79,15 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._selectedDateTrucks();
     this._selectedDatePackages();
   }
 
   private _selectedDatePackages(date?: string) {
     let x: any;
-    if (date) {
-      x = this.postService.getPackages(date);
-    } else {
-      const now = new Date().toLocaleDateString('en-US');
-      x = this.postService.getPackages(now);
-    }
+    date ? x = this.postService.getPackages(date) :
+    x = this.postService.getPackages(new Date().toLocaleDateString('en-US'));
     x.snapshotChanges().subscribe(item => {
-      // this.packageList = [];
       const temp = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
@@ -109,8 +96,6 @@ export class BlogComponent implements OnInit {
       });
       this.packageList = temp.filter(pack => pack.truck !== 'Unassigned');
       this.unPackageList = temp.filter(pack => pack.truck === 'Unassigned');
-      // console.log('PackL: ', this.packageList);
-      this._selectedDateTrucks();
     });
   }
 
@@ -121,14 +106,9 @@ export class BlogComponent implements OnInit {
       item.forEach(element => {
         const y = element.payload.toJSON();
         y['$key'] = element.key;
-        const z = this.packageList.filter(pack => pack.truck === element.key);
-        // if (z.length) { // only drivers with packages
-          y['packages'] = z;
-          temp.push(y as Truck);
-          this.postList = temp.sort((a, b) => b['packages'].length);
-        // }
+        temp.push(y as Truck);
+        this.postList = temp;
       });
-      // console.log('TruckL', this.postList);
     });
   }
 
@@ -180,35 +160,9 @@ export class BlogComponent implements OnInit {
     return of(this.getPostList);
   }
 
-  onPackageFilter(query: string): Observable<any[]> {
+  onPackageFilter(query: string): Observable<Package[]> {
     this.query2 = query;
-
-
-    console.log(this.postList);
-    const x = this.postList.filter(truck =>
-      truck['packages'].length > 0);
-      const xxx = [];
-
-    x.forEach((y, i) => {
-      xxx.push(y['packages']);
-    });
-    console.log(xxx);
-      // console.log(y['packages']);
-
-    this.sortedPostList = xxx.filter(el =>
-      // console.log(el);
-      // tslint:disable-next-line:no-unused-expression
-      new RegExp(`${query}`, 'i').test(
-        Object.values( Object.assign({}, el, el.recipient) ).toString()
-      )
-    );
-    console.log( Object.values( Object.assign({}, xxx) ) );
-
-
-    // console.log(this.sortedPostList);
-    // return of(this.sortedPostList);
-    // return of(this.sortedPackList);
-    return of(this.getUnassignedList);
+    return of(this.getUnassignedList, this.getPackageList);
   }
 
   get getPostList() {
@@ -217,6 +171,14 @@ export class BlogComponent implements OnInit {
         [Object.values(truck['driver']).concat(truck.id, truck.serial)].toString()
       )
     ) : this.postList;
+  }
+
+  get getPackageList() {
+    return this.query2.length ? this.packageList.filter(y =>
+      new RegExp(`${this.query2}`, 'i').test(
+        [Object.values(y['recipient']).concat(y.serial, y.date, y.description)].toString()
+      )
+    ) : this.packageList;
   }
 
   get getUnassignedList() {

@@ -24,7 +24,7 @@
     <div class="bg-white column">
       <h5>Trucks</h5>
       <div class="bg-grey">
-        <app-truck-view [postList]="getPostList" [packageList]="packageList"
+        <app-truck-view [postList]="getPostList" [packageList]="getPackageList"
           (changed)="onChangedTruck($event)" (deleted)="onDeletedTruck($event)"
           (changedPackage)="onChangedPackage($event)" (deletedPackage)="onDeletedPackage($event)">
         </app-truck-view>
