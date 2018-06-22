@@ -14,18 +14,18 @@ import { ToastrModule } from 'ngx-toastr';
 import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
-import { BlogComponent } from './components/blog/blog.component';
-import { HeaderComponent } from './components/blog/header/header.component';
-import { TruckViewComponent } from './components/blog/truck-view/truck-view.component';
-import { LoginFormComponent } from './components/blog/user-login/login-form.component';
-import { RegisterFormComponent } from './components/blog/user-login/register-form.component';
-import { NewPackageComponent } from './components/blog/new-package/new-package.component';
-import { NewDriverComponent } from './components/blog/new-driver/new-driver.component';
-import { UnassignedComponent } from './components/blog/unassigned-view/unassigned.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HeaderComponent } from './components/dashboard/header/header.component';
+import { TruckViewComponent } from './components/dashboard/truck-view/truck-view.component';
+import { LoginFormComponent } from './components/user-login/login-form.component';
+import { RegisterFormComponent } from './components/user-login/register-form.component';
+import { NewPackageComponent } from './components/dashboard/new-package/new-package.component';
+import { NewDriverComponent } from './components/dashboard/new-driver/new-driver.component';
+import { UnassignedComponent } from './components/dashboard/unassigned-view/unassigned.component';
 
 import { environment } from '../environments/environment';
 
-import { PostService } from './services/post.service';
+import { TruckService } from './services/truck.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 
@@ -53,7 +53,7 @@ const MATERIAL_MODULES = [
 @NgModule({
   declarations: [
     AppComponent,
-    BlogComponent,
+    DashboardComponent,
     UnassignedComponent,
     HeaderComponent,
     TruckViewComponent,
@@ -77,7 +77,7 @@ const MATERIAL_MODULES = [
     DragulaModule
   ],
   providers: [
-    PostService,
+    TruckService,
     AuthService,
     AuthGuard,
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},

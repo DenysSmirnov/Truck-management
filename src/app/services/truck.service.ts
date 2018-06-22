@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Truck, Package } from '../models/post';
+import { Truck, Package } from '../models/model';
 
 @Injectable()
-export class PostService {
+export class TruckService {
   trucksRef: AngularFireList<any>;
   packagesRef: AngularFireList<any>;
 
