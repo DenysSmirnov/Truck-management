@@ -10,58 +10,71 @@
           </button>
         </div>
 
-        <form #packageForm="ngForm" (ngSubmit)="onSubmit(packageForm)">
+        <form [formGroup]="packageForm" novalidate (ngSubmit)="onSubmit()">
           <div class="modal-body">
             <div class="new-package-container">
-              <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPackage.$key">
+              <div class="form-group">
+                <input type="hidden" class="form-control" name="key" formControlName="$key">
+              </div>
               
-              <mat-form-field>
-                <input matInput class="form-control" name="id" #id="ngModel"
-                  [(ngModel)]="postService.selectedPackage.id" placeholder="ID" required>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="id" formControlName="id" placeholder="ID">
+                </mat-form-field>
+              </div>
   
-              <mat-form-field>
-                <input matInput class="form-control" name="serial" #serial="ngModel"
-                  [(ngModel)]="postService.selectedPackage.serial" placeholder="Serial" required>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="serial" formControlName="serial" placeholder="Serial">
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="firstName" #firstName="ngModel"
-                  [(ngModel)]="postService.selectedPackage.firstName" placeholder="First Name" required>
-              </mat-form-field>
+              <div formGroupName="recipient">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput class="form-control" name="firstName" formControlName="firstName" placeholder="First Name">
+                  </mat-form-field>
+                </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="lastName" #lastName="ngModel"
-                  [(ngModel)]="postService.selectedPackage.lastName" placeholder="Last Name" required>
-              </mat-form-field>
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput class="form-control" name="lastName" formControlName="lastName" placeholder="Last Name">
+                  </mat-form-field>
+                </div>
+              </div>
 
-              <mat-form-field>
-                <input matInput [matDatepicker]="picker" class="form-control" name="date"
-                  [(ngModel)]="postService.selectedPackage.date" placeholder="Choose a date" required>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" class="form-control" name="date"
+                    formControlName="date" placeholder="Choose a date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <mat-select class="form-control" name="truck" placeholder="Assigned a package with (Driver)"
-                  #truck="ngModel" [(ngModel)]="postService.selectedPackage.truck" required>
-                  <mat-option value="Unassigned">Unassigned</mat-option>
-                  <mat-option [value]="post.$key" *ngFor="let post of postList">{{post.id}} 
-                    {{post.driver.lastName}} {{post.driver.firstName}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" name="truck" formControlName="truck"
+                    placeholder="Assigned a package with (Driver)">
+                    <mat-option value="Unassigned">Unassigned</mat-option>
+                    <mat-option [value]="truck.$key" *ngFor="let truck of truckList">{{truck.id}} 
+                      {{truck.driver.lastName}} {{truck.driver.firstName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <textarea matInput class="form-control" name="description" #description="ngModel"
-                  [(ngModel)]="postService.selectedPackage.description" placeholder="Description" required>
-                </textarea>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <textarea matInput class="form-control" name="description"
+                  formControlName="description" placeholder="Description"></textarea>
+                </mat-form-field>
+              </div>
 
             </div>
           </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" #closeBtn data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="resetForm(packageForm)">
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
             <i class="fa fa-repeat"></i>
             Reset</button>
           <button type="submit" class="btn btn-outline-primary" [disabled]="packageForm.invalid">

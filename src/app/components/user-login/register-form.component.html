@@ -10,7 +10,7 @@
         <div class="form-group">
         <mat-form-field>
           <input matInput placeholder="Your email" class="form-control" name="email" formControlName="email" autocomplete="off">
-          <mat-error *ngIf="regForm.controls['email'].invalid">{{ getErrorMessage() }}</mat-error>
+          <mat-error *ngIf="regForm.controls.email.invalid">{{ getEmailErrorMessage() }}</mat-error>
         </mat-form-field>
         </div>
 
@@ -19,7 +19,7 @@
           <input matInput placeholder="Your password" [type]="hide ? 'password' : 'text'"
             class="form-control" name="pass" formControlName="pass">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error *ngIf="regForm.controls['pass'].invalid">{{ getPassErrorMessage() }}</mat-error>
+          <mat-error *ngIf="regForm.controls.pass.invalid">{{ getPassErrorMessage() }}</mat-error>
         </mat-form-field>
         </div>
 
@@ -28,7 +28,7 @@
           <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'"
             class="form-control" name="confirmPass" formControlName="confirmPass">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error *ngIf="regForm.controls['confirmPass'].invalid">{{ getConfirmPassErrorMessage() }}</mat-error>
+          <mat-error *ngIf="regForm.controls.confirmPass.invalid">{{ getConfirmPassErrorMessage() }}</mat-error>
         </mat-form-field>
         </div>
       </div>
@@ -41,7 +41,7 @@
       <div class="form-group">
       <mat-card-actions>
         <button mat-raised-button class="w-100" type="submit" color="primary"
-        [disabled]="regForm.controls['email'].invalid || regForm.controls['pass'].invalid || regForm.controls['confirmPass'].invalid">Create account</button>
+        [disabled]="regForm.controls.email.invalid || regForm.controls.pass.invalid || regForm.controls.confirmPass.invalid">Create account</button>
       </mat-card-actions>
       </div>
     </div>

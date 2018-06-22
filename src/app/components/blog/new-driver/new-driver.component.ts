@@ -1,50 +1,58 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostService } from '../../../services/post.service';
 import { ToastrService} from 'ngx-toastr';
+import { Truck } from '../../../models/post';
 
 @Component({
   selector: 'app-new-driver',
   templateUrl: './new-driver.component.html',
   styleUrls: ['./new-driver.component.scss']
 })
-export class NewDriverComponent implements OnInit {
+export class NewDriverComponent implements OnInit, OnChanges {
   @Input() isEdit: Boolean;
+  @Input() selectedTruck: Truck;
   @Output() editDone = new EventEmitter<boolean>();
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  driverForm: FormGroup;
 
-  constructor(private postService: PostService, private tostr: ToastrService) {}
-
-  ngOnInit() {
-    this.postService.getTrucks();
+  constructor(private postService: PostService, private tostr: ToastrService) {
+    this.driverForm = new FormGroup({
+      $key: new FormControl(null),
+      id: new FormControl(null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      serial: new FormControl('', [Validators.required, Validators.maxLength(8)]),
+      driver: new FormGroup({
+        firstName: new FormControl('', Validators.required),
+        lastName: new FormControl('', Validators.required),
+        email: new FormControl('', Validators.pattern('[a-zA-Z-_0-9]+@[a-zA-Z_]+?\\..+')),
+        phone: new FormControl(null, Validators.required)
+      })
+    });
   }
 
-  onSubmit(driverForm: NgForm) {
-    if (driverForm.value.$key == null) {
-      this.postService.insertTruck(driverForm.value);
+  ngOnInit() {}
+
+  ngOnChanges() {
+    delete this.selectedTruck['packages'];
+    this.driverForm.patchValue(this.selectedTruck);
+  }
+
+  onSubmit() {
+    if (this.driverForm.controls.$key.value == null) {
+      this.postService.insertTruck(this.driverForm.value);
       this.tostr.success('Submitted Successfully', 'Driver registered');
     } else {
-      this.postService.updateTruck(driverForm.value);
+      this.postService.updateTruck(this.driverForm.value);
       this.tostr.success('Submitted Successfully', 'Driver updated');
     }
-    this.resetForm(driverForm);
+    this.resetForm();
     this.closeBtn.nativeElement.click();
   }
-  resetForm(driverForm?: NgForm) {
+  resetForm() {
     this.onEdit(false);
-
-    if (driverForm != null) {
-      driverForm.reset();
+    if (this.driverForm != null) {
+      this.driverForm.reset();
     }
-    this.postService.selectedPost = {
-      $key: null,
-      id: null,
-      serial: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      phone: null
-    };
   }
 
   onEdit(bool: boolean) {

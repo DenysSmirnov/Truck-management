@@ -15,3 +15,9 @@
   align-items: center;
   justify-content: space-around;
 }
+.mat-form-field {
+  display: block;
+  input {
+    box-shadow: none;
+  }
+}

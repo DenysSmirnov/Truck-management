@@ -6,8 +6,6 @@ import { Truck, Package } from '../models/post';
 export class PostService {
   trucksRef: AngularFireList<any>;
   packagesRef: AngularFireList<any>;
-  selectedPost: Truck = new Truck();
-  selectedPackage: Package = new Package();
 
   constructor(private db: AngularFireDatabase) {}
 
@@ -21,10 +19,10 @@ export class PostService {
       id: truck.id,
       serial: truck.serial,
       driver: {
-        email: truck.email,
-        firstName: truck.firstName,
-        lastName: truck.lastName,
-        phone: truck.phone
+        email: truck.driver.email,
+        firstName: truck.driver.firstName,
+        lastName: truck.driver.lastName,
+        phone: truck.driver.phone
       }
     });
   }
@@ -35,10 +33,10 @@ export class PostService {
         id: truck.id,
         serial: truck.serial,
         driver: {
-          email: truck.email,
-          firstName: truck.firstName,
-          lastName: truck.lastName,
-          phone: truck.phone
+          email: truck.driver.email,
+          firstName: truck.driver.firstName,
+          lastName: truck.driver.lastName,
+          phone: truck.driver.phone
         }
       });
   }
@@ -66,8 +64,8 @@ export class PostService {
       description: pack.description,
       date: new Date(pack.date).toLocaleDateString('en-US'),
       recipient: {
-        firstName: pack.firstName,
-        lastName: pack.lastName
+        firstName: pack.recipient.firstName,
+        lastName: pack.recipient.lastName
       },
       truck: pack.truck
     });
@@ -81,8 +79,8 @@ export class PostService {
         description: pack.description,
         date: new Date(pack.date).toLocaleDateString('en-US'),
         recipient: {
-          firstName: pack.firstName,
-          lastName: pack.lastName
+          firstName: pack.recipient.firstName,
+          lastName: pack.recipient.lastName
         },
         truck: pack.truck
       });
@@ -100,4 +98,3 @@ export class PostService {
     this.packagesRef.update(packId, { truck: truckId });
   }
 }
-

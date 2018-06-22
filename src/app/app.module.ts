@@ -16,7 +16,6 @@ import { DragulaModule } from 'ng2-dragula';
 import { AppComponent } from './app.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { HeaderComponent } from './components/blog/header/header.component';
-// import { FooterComponent } from './components/footer/footer.component';
 import { TruckViewComponent } from './components/blog/truck-view/truck-view.component';
 import { LoginFormComponent } from './components/blog/user-login/login-form.component';
 import { RegisterFormComponent } from './components/blog/user-login/register-form.component';
@@ -57,7 +56,6 @@ const MATERIAL_MODULES = [
     BlogComponent,
     UnassignedComponent,
     HeaderComponent,
-    // FooterComponent,
     TruckViewComponent,
     LoginFormComponent,
     RegisterFormComponent,

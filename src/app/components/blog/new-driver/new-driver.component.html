@@ -10,45 +10,55 @@
           </button>
         </div>
 
-        <form #driverForm="ngForm" (ngSubmit)="onSubmit(driverForm)">
+        <form [formGroup]="driverForm" novalidate (ngSubmit)="onSubmit()">
           <div class="modal-body">
             <div class="new-driver-container">
-              <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="postService.selectedPost.$key">
-              
-              <mat-form-field>
-                <input matInput class="form-control" name="id" #id="ngModel"
-                  [(ngModel)]="postService.selectedPost.id" placeholder="ID" required>
-              </mat-form-field>
-  
-              <mat-form-field>
-                <input matInput class="form-control" name="serial" #serial="ngModel"
-                  [(ngModel)]="postService.selectedPost.serial" placeholder="Serial" required>
-              </mat-form-field>
+              <div class="form-group">
+                <input type="hidden" class="form-control" name="key" formControlName="$key">
+              </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="firstName" #firstName="ngModel"
-                  [(ngModel)]="postService.selectedPost.firstName" placeholder="First Name" required>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="id" formControlName="id" placeholder="ID">
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="lastName" #lastName="ngModel"
-                  [(ngModel)]="postService.selectedPost.lastName" placeholder="Last Name" required>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="serial" formControlName="serial" placeholder="Serial">
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="email" #email="ngModel"
-                  [(ngModel)]="postService.selectedPost.email" placeholder="E-mail">
-              </mat-form-field>
+              <div formGroupName="driver">
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="firstName" formControlName="firstName" placeholder="First Name">
+                </mat-form-field>
+              </div>
 
-              <mat-form-field>
-                <input matInput class="form-control" name="phone" #phone="ngModel"
-                  [(ngModel)]="postService.selectedPost.phone" placeholder="Phone" required>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="lastName" formControlName="lastName" placeholder="Last Name">
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="email" formControlName="email" placeholder="E-mail">
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="phone" formControlName="phone" placeholder="Phone">
+                </mat-form-field>
+              </div>
+              </div>
             </div>
           </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" #closeBtn data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="resetForm(driverForm)">
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
             <i class="fa fa-repeat"></i>
             Reset</button>
           <button type="submit" class="btn btn-outline-primary" [disabled]="driverForm.invalid">

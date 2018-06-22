@@ -3,10 +3,12 @@ export class Truck {
   $key: string;
   id: number;
   serial: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: number;
+  driver: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: number;
+  };
 }
 
 export class Package {
@@ -15,7 +17,9 @@ export class Package {
   serial: string;
   description: string;
   date: any;
-  firstName: string;
-  lastName: string;
+  recipient: {
+    firstName: string;
+    lastName: string;
+  };
   truck: string;
 }

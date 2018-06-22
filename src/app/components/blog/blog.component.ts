@@ -14,6 +14,8 @@ import { Observable, of } from 'rxjs';
 })
 
 export class BlogComponent implements OnInit {
+  selectedTruck: Truck = new Truck();
+  selectedPackage: Package = new Package();
   postList: Truck[] = [];
   packageList: Package[] = [];
   unPackageList: Package[];
@@ -43,15 +45,17 @@ export class BlogComponent implements OnInit {
   }
 
   showDriverModal() {
-    if (this.postService.selectedPost != null) {
-      this.postService.selectedPost = {
+    if (this.selectedTruck != null) {
+        this.selectedTruck = {
         $key: null,
         id: null,
         serial: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        phone: null
+        driver: {
+          email: '',
+          firstName: '',
+          lastName: '',
+          phone: null
+        }
       };
     }
     this.showDriver = true;
@@ -60,14 +64,16 @@ export class BlogComponent implements OnInit {
     }
   }
   showPackageModal() {
-    if (this.postService.selectedPackage != null) {
-      this.postService.selectedPackage = {
+    if (this.selectedPackage != null) {
+      this.selectedPackage = {
         $key: null,
         id: null,
         serial: '',
         description: '',
-        firstName: '',
-        lastName: '',
+        recipient: {
+          firstName: '',
+          lastName: '',
+        },
         date: null,
         truck: null
       };
@@ -112,10 +118,10 @@ export class BlogComponent implements OnInit {
     });
   }
 
-  onChangedTruck(post: Truck) {
+  onChangedTruck(truck: Truck) {
     this.showDriver = true;
     this.isEdit = true;
-    this.postService.selectedPost = Object.assign({}, post['driver'], post);
+    this.selectedTruck = Object.assign({}, truck);
   }
 
   onDeletedTruck(key: string) {
@@ -141,7 +147,7 @@ export class BlogComponent implements OnInit {
     this.showPackage = true;
     this.isEdit = true;
     pack.date = new Date(pack.date);
-    this.postService.selectedPackage = Object.assign({}, pack['recipient'], pack);
+    this.selectedPackage = Object.assign({}, pack);
   }
 
   onDeletedPackage(key: string) {

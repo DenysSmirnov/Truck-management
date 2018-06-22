@@ -9,12 +9,14 @@
         (click)="authService.logout()">Logout</a>
 
       <div role="separator" class="dropdown-divider"></div>
-      <app-new-package *ngIf="showPackage" [isEdit]="isEdit" (editDone)="showPackageModal()"></app-new-package>
+      <app-new-package *ngIf="showPackage" [isEdit]="isEdit" [selectedPackage]="selectedPackage"
+        (editDone)="showPackageModal()"></app-new-package>
       <button type="button" class="btn btn-outline-success my-sm-3 btn-block" 
         data-toggle="modal" data-target="#newPackModal"
         (click)="showPackageModal()">New package</button>
 
-      <app-new-driver *ngIf="showDriver" [isEdit]="isEdit" (editDone)="showDriverModal()"></app-new-driver>
+      <app-new-driver *ngIf="showDriver" [selectedTruck]="selectedTruck"
+        [isEdit]="isEdit" (editDone)="showDriverModal()"></app-new-driver>
       <button type="button" class="btn btn-outline-warning my-sm-3 btn-block" 
         data-toggle="modal" data-target="#newDriverModal"
         (click)="showDriverModal()">New driver</button>

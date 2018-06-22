@@ -26,7 +26,7 @@ export class AuthService {
 
   isLoggedIn() {
     if (this.userDetails == null) {
-        return false;
+      return false;
     } else {
       return true;
     }
@@ -34,7 +34,7 @@ export class AuthService {
 
   logout() {
     this._firebaseAuth.auth.signOut()
-      .then((res) => this.router.navigate(['/login']));
+      .then(res => this.router.navigateByUrl('/login'));
     localStorage.removeItem('currentUser');
   }
 
@@ -42,7 +42,6 @@ export class AuthService {
     return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
   signInRegular(email, password) {
-    // const credential = firebase.auth.EmailAuthProvider.credential(email, password);
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
   signInWithGithub() {
