@@ -1,0 +1,87 @@
+<div class="modal fade" id="newPackModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel2" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 *ngIf="isEdit" class="modal-title" id="newModalLabel2">Edit package</h5>
+          <h5 *ngIf="!isEdit" class="modal-title" id="newModalLabel2">New package</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form [formGroup]="packageForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+            <div class="new-package-container">
+              <div class="form-group">
+                <input type="hidden" class="form-control" name="key" formControlName="$key">
+              </div>
+              
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="id" formControlName="id" placeholder="ID">
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput class="form-control" name="serial" formControlName="serial" placeholder="Serial">
+                </mat-form-field>
+              </div>
+
+              <div formGroupName="recipient">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput class="form-control" name="firstName" formControlName="firstName" placeholder="First Name">
+                  </mat-form-field>
+                </div>
+
+                <div class="form-group">
+                  <mat-form-field>
+                    <input matInput class="form-control" name="lastName" formControlName="lastName" placeholder="Last Name">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" class="form-control" name="date"
+                    formControlName="date" placeholder="Choose a date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" name="truck" formControlName="truck"
+                    placeholder="Assigned a package with (Driver)">
+                    <mat-option value="Unassigned">Unassigned</mat-option>
+                    <mat-option [value]="truck.$key" *ngFor="let truck of truckList">{{truck.id}} 
+                      {{truck.driver.lastName}} {{truck.driver.firstName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field>
+                  <textarea matInput class="form-control" name="description"
+                  formControlName="description" placeholder="Description"></textarea>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" #closeBtn data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+            <i class="fa fa-repeat"></i>
+            Reset</button>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="packageForm.invalid">
+            <i class="fa fa-floppy-o"></i>
+            Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

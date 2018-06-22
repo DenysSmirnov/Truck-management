@@ -1,0 +1,34 @@
+div.buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  a {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+.unas-height {
+  min-height: 100px;
+}
+.mat-card {
+  padding: 18px;
+}
+.mat-card-header-text {
+  margin: 5px 0 0 0!important;
+}
+.mat-card-subtitle {
+  margin-bottom: 5px;
+}
+// @media (max-width: 767px) {
+//   ._package {
+//     display: inline-block;
+//     width: 48%;
+//     min-height: 130px;
+//   }
+// }
+@media (max-width: 991px) {
+  ._package {
+    margin: 7px 0 0 0;
+    padding: 25px 10px 5px 10px!important;
+  }
+}

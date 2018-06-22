@@ -1,0 +1,49 @@
+<table class="table table-sm border">
+  <div class="bg-white p-2 mb-last-0 shadow" *ngFor="let item of sortedList">
+    <tr>
+      <div class="bg-grey d-flex justify-content-between align-items-center">
+        <td>
+          <tr *ngIf="item.id">id: {{ item.id }}</tr>
+          <tr>{{ item.serial }}</tr>
+        </td>
+        <td class="td-contact">
+          <tr>{{ item.driver.lastName }} {{ item.driver.firstName }}</tr> 
+          <tr>{{ item.driver.email }}</tr>
+          <tr>{{ item.driver.phone }}</tr>
+        </td>
+        <td class="text-right">
+          <a class="btn" data-toggle="modal" data-target="#newDriverModal"
+            (click)="onEdit(item)">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+          <a class="btn" (click)="onDelete(item.$key)">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </td>
+      </div>
+    </tr>
+
+    <div [id]="item.$key" class="d-flex flex-row justify-content-start flex-wrap min-h"
+      [dragula]='"bag-one"' [dragulaModel]="item.packages">
+      <mat-card [id]="pack.$key" class="_package" *ngFor="let pack of item.packages">
+        <mat-card-header>
+          <div class="buttons">
+            <a class="btn" data-toggle="modal" data-target="#newPackModal"
+              (click)="onEditPack(pack)">
+              <i class="fa fa-pencil-square-o"></i>
+            </a>
+            <a class="btn" (click)="onDeletePack(pack.$key)">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+          <mat-card-subtitle>{{ pack.serial }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          {{ pack.date | date}}<br>
+          {{ pack.recipient.lastName }} {{ pack.recipient.firstName }}<br>
+          {{ pack.description }}
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</table>
