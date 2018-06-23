@@ -5,8 +5,7 @@
   <div class="col-md-2 padding-right">
     <div class="bg-white column">
 
-      <a *ngIf="this.authService.isLoggedIn()" class="btn btn-outline-secondary my-sm-3 btn-block"
-        (click)="authService.logout()">Logout</a>
+      <a class="btn btn-outline-secondary my-sm-3 btn-block" (click)="logout()">Logout</a>
 
       <div role="separator" class="dropdown-divider"></div>
       <app-new-package *ngIf="showPackage" [isEdit]="isEdit" [selectedPackage]="selectedPackage"

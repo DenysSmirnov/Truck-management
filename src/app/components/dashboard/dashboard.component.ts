@@ -44,6 +44,10 @@ export class DashboardComponent implements OnInit {
     this.truckService.dragAndDropPackage(el.id, target.id);
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
   showDriverModal() {
     if (this.selectedTruck != null) {
         this.selectedTruck = {
