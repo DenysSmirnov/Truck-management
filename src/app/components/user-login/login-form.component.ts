@@ -54,14 +54,16 @@ export class LoginFormComponent implements OnInit {
   signInWithGithub() {
     this.authService.signInWithGithub()
       .then(_res => {
-        this.router.navigateByUrl('/');
+        // this.router.navigateByUrl('/');
+        window.location.replace('/');
       })
       .catch(err => this.error = err.message);
   }
   signInWithGoogle() {
     this.authService.signInWithGoogle()
       .then(_res => {
-        this.router.navigateByUrl('/');
+        // this.router.navigateByUrl('/');
+        window.location.replace('/');
       })
       .catch(err => this.error = err.message);
   }

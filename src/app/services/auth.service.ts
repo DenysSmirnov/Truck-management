@@ -36,6 +36,7 @@ export class AuthService {
     this._firebaseAuth.auth.signOut()
       .then(_res => this.router.navigateByUrl('/login'));
     localStorage.removeItem('currentUser');
+    this.userDetails = null;
   }
 
   doRegister(email, password) {
