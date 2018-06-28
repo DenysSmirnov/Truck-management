@@ -134,7 +134,7 @@ export class DashboardComponent implements OnInit {
       this.tostr.warning('Deleted Successfully', 'Truck Deleted');
 
       const x = this.truckService.getAssignedPackages(key);
-      if (x != null) {
+      if (x) {
         x.snapshotChanges().subscribe(item => {
           item.forEach(element => {
             const y = element.payload.toJSON();
